@@ -52,3 +52,9 @@ Thumbs.db
 *.swp
 *.swo
 bigmemory/
+
+# Pytest
+.pytest_cache/
+
+# Temporary execution scratch directory
+scratch/

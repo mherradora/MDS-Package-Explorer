@@ -1493,6 +1493,437 @@ dialog.glass-modal::backdrop {
     margin-right: 0;
 }
 
+/* ==========================================================================
+   Interactive Organigram Highlight & Fade Classes
+   ========================================================================== */
+
+.relations-graph.has-active .graph-node:not(.active) {
+    opacity: 0.2;
+}
+
+.relations-graph.has-active line:not(.active) {
+    opacity: 0.05;
+}
+
+.relations-graph.has-active .ind-node:not(.active) {
+    opacity: 0.15;
+    fill: #475569;
+}
+
+.relations-graph.has-active .graph-node.active circle {
+    stroke-width: 4px;
+    r: 34px;
+}
+
+.relations-graph.has-active .core-node.active circle {
+    r: 44px;
+}
+
+/* Custom styles for highlighted lines */
+.relations-graph.has-active line.active {
+    stroke-width: 3px;
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent));
+}
+
+.ind-node {
+    cursor: default;
+    transition: var(--transition-smooth);
+}
+
+.ind-node:hover {
+    fill: var(--primary) !important;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   Sort Select Styles
+   ========================================================================== */
+
+.sort-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.2rem;
+    padding-right: 2.2rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgba(15, 23, 42, 0.6);
+    outline: none;
+}
+
+[dir="rtl"] .sort-select {
+    background-position: left 0.75rem center;
+    padding-left: 2.2rem;
+    padding-right: 1.25rem;
+}
+
+.sort-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+/* ==========================================================================
+   Downloads Badge
+   ========================================================================== */
+
+.pkg-downloads-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* ==========================================================================
+   Inline Document Viewer Modal
+   ========================================================================== */
+
+.viewer-modal {
+    max-width: 92% !important;
+    width: 1200px;
+    height: 90vh;
+    border-radius: 16px;
+}
+
+.viewer-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem !important;
+}
+
+.viewer-body {
+    flex-grow: 1;
+    height: calc(100% - 60px);
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.viewer-body iframe {
+    border: none;
+    background: white;
+}
+
+/* Button File interactive indicators */
+.btn-view-doc {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: var(--primary);
+    font-size: 0.72rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+[dir="rtl"] .btn-view-doc {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+.btn-view-doc:hover {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* ==========================================================================
+   Navigation Tabs & MDS Interactive Lab
+   ========================================================================== */
+
+/* Tabs Bar */
+.app-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    outline: none;
+}
+
+.tab-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    background: rgba(56, 189, 248, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-bottom-color: transparent;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.tab-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: currentColor;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Lab Layout */
+.lab-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .lab-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Sidebar Parameters form inputs */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(8px);
+}
+
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+.form-select option {
+    background: var(--bg-dark-accent);
+    color: var(--text-main);
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    resize: vertical;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+.help-text {
+    font-size: 0.75rem;
+    color: var(--text-dimmed);
+    margin-top: 0.25rem;
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Lab Plot Card */
+.lab-plot-card {
+    margin-bottom: 2rem;
+}
+
+.plot-canvas-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+}
+
+.plot-empty {
+    text-align: center;
+    padding: 3rem;
+}
+
+.plot-empty .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.plot-empty h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.plot-empty p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* Results & Stats */
+.lab-results-card {
+    margin-bottom: 2rem;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.result-tile {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.result-tile.flex-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.tile-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dimmed);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tile-value {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.tile-desc {
+    font-size: 0.75rem;
+    color: var(--text-dimmed);
+}
+
+/* Terminal Console Card */
+.console-wrapper {
+    background: #02040a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1rem;
+    height: 180px;
+    overflow-y: auto;
+}
+
+.console-log {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #10b981;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Legend styling for vis-network */
+.legend-dot.dot-ind {
+    background: #94a3b8;
+}
+
+/* RTL overrides for app tabs */
+[dir="rtl"] .tab-btn {
+    border-radius: 12px 12px 0 0;
+}
+
+
 
 
 

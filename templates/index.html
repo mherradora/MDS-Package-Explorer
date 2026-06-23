@@ -13,6 +13,10 @@
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="/static/css/style.css">
     
+    <!-- Chart.js and Vis.js Network CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js" defer></script>
+    
     <!-- Main Application Logic -->
     <script src="/static/js/app.js" defer></script>
 </head>
@@ -47,6 +51,16 @@
                     </div>
                 </div>
 
+                <!-- Sorting Dropdown -->
+                <div class="sort-wrapper">
+                    <select id="sort-select" class="btn btn-secondary sort-select" title="Sort Packages / Ordenar Paquetes">
+                        <option value="name" data-i18n="sort_name">Sort by Name</option>
+                        <option value="downloads" data-i18n="sort_downloads">Sort by Downloads</option>
+                        <option value="date" data-i18n="sort_date">Sort by Date</option>
+                    </select>
+                </div>
+
+                <!-- Search Input -->
                 <div class="search-wrapper">
                     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -54,6 +68,7 @@
                     <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Search packages, keywords..." autocomplete="off">
                 </div>
                 
+                <!-- Sync Button -->
                 <button id="refresh-btn" class="btn btn-primary" title="Refresh packages list">
                     <svg class="icon spinner-icon" id="refresh-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -64,8 +79,26 @@
             </div>
         </header>
 
-        <!-- Main Layout -->
-        <main class="app-layout">
+        <!-- Navigation Tabs -->
+        <nav class="app-tabs">
+            <button class="tab-btn active" data-tab="explorer" id="tab-explorer-btn">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span data-i18n="tab_explorer">Ecosystem Explorer</span>
+            </button>
+            <button class="tab-btn" data-tab="lab" id="tab-lab-btn">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                <span data-i18n="tab_lab">MDS Interactive Lab</span>
+            </button>
+        </nav>
+
+        <!-- Ecosystem Explorer Tab Content -->
+        <div id="tab-content-explorer" class="tab-content active">
+            <!-- Main Layout -->
+            <main class="app-layout">
             <!-- Packages Section -->
             <section class="packages-section">
                 <!-- README Ecosystem Summary -->
@@ -84,84 +117,13 @@
                         <!-- Visual Organigram -->
                         <div class="organigram-container">
                             <h3 data-i18n="organigram_title">Package Dependency Organigram</h3>
-                            <div class="svg-wrapper">
-                                <svg class="relations-graph" viewBox="0 0 800 360" width="100%" height="320">
-                                    <defs>
-                                        <linearGradient id="glow-line" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
-                                            <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.8"/>
-                                            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2"/>
-                                        </linearGradient>
-                                        <marker id="arrow" viewBox="0 0 10 10" refX="24" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6"/>
-                                        </marker>
-                                    </defs>
-                                    
-                                    <!-- Connection Lines to Core Hub -->
-                                    <line x1="200" y1="100" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
-                                    <line x1="600" y1="100" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
-                                    <line x1="200" y1="260" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
-                                    <line x1="600" y1="260" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
-                                    <line x1="400" y1="60" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
-                                    
-                                    <!-- Core Node (smacof) -->
-                                    <g class="graph-node core-node" transform="translate(400, 180)">
-                                        <circle r="36" fill="#0f132a" stroke="#8b5cf6" stroke-width="3"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-weight="bold" font-size="12">smacof</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#a5b4fc" font-size="8" font-family="monospace">Core Hub</text>
-                                    </g>
-                                    
-                                    <!-- Dependent Nodes -->
-                                    <g class="graph-node dep-node" transform="translate(200, 100)">
-                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">asymmetry</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
-                                    </g>
-                                    
-                                    <g class="graph-node dep-node" transform="translate(600, 100)">
-                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">MDSMap</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
-                                    </g>
-                                    
-                                    <g class="graph-node dep-node" transform="translate(200, 260)">
-                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">mdsOpt</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Depends</text>
-                                    </g>
-                                    
-                                    <g class="graph-node dep-node" transform="translate(600, 260)">
-                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">pams</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
-                                    </g>
-                                    
-                                    <g class="graph-node dep-node" transform="translate(400, 60)">
-                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
-                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">smacofx</text>
-                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Depends</text>
-                                    </g>
-                                    
-                                    <!-- Independent Packages Panel -->
-                                    <g transform="translate(10, 30)">
-                                        <rect width="130" height="290" rx="8" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3"/>
-                                        <text x="65" y="20" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="bold" id="panel-ind-title">Independent MDS</text>
-                                        <text x="65" y="45" text-anchor="middle" fill="#64748b" font-size="8.5">bayMDS</text>
-                                        <text x="65" y="65" text-anchor="middle" fill="#64748b" font-size="8.5">bigmds</text>
-                                        <text x="65" y="85" text-anchor="middle" fill="#64748b" font-size="8.5">bios2mds</text>
-                                        <text x="65" y="105" text-anchor="middle" fill="#64748b" font-size="8.5">DistatisR</text>
-                                        <text x="65" y="125" text-anchor="middle" fill="#64748b" font-size="8.5">fmds</text>
-                                        <text x="65" y="145" text-anchor="middle" fill="#64748b" font-size="8.5">focusedMDS</text>
-                                        <text x="65" y="165" text-anchor="middle" fill="#64748b" font-size="8.5">lmds</text>
-                                        <text x="65" y="185" text-anchor="middle" fill="#64748b" font-size="8.5">MDSGUI</text>
-                                        <text x="65" y="205" text-anchor="middle" fill="#64748b" font-size="8.5">MDSPCAShiny</text>
-                                        <text x="65" y="225" text-anchor="middle" fill="#64748b" font-size="8.5">semds</text>
-                                    </g>
-                                </svg>
+                            <div class="svg-wrapper" style="position: relative; height: 360px;">
+                                <div id="vis-dependency-network" style="width: 100%; height: 100%; position: absolute; top:0; left:0;"></div>
                             </div>
                             <div class="chart-caption">
-                                <span class="legend-item"><span class="legend-dot dot-core"></span> <span data-i18n="legend_core">Core Hub</span></span>
-                                <span class="legend-item"><span class="legend-dot dot-dep"></span> <span data-i18n="legend_dep">Imports / Depends</span></span>
+                                <span class="legend-item"><span class="legend-dot dot-core" style="background:#8b5cf6;"></span> <span data-i18n="legend_core">Core Hub</span></span>
+                                <span class="legend-item"><span class="legend-dot dot-dep" style="background:#38bdf8;"></span> <span data-i18n="legend_dep">Imports / Depends</span></span>
+                                <span class="legend-item"><span class="legend-dot dot-ind" style="background:#94a3b8;"></span> <span data-i18n="legend_ind">Independent MDS</span></span>
                             </div>
                         </div>
 
@@ -221,6 +183,7 @@
                                             <th data-i18n="th_package">Package</th>
                                             <th data-i18n="th_version">Version</th>
                                             <th data-i18n="th_published">Published Date</th>
+                                            <th data-i18n="th_downloads">Downloads</th>
                                             <th data-i18n="th_sync">Sync Status</th>
                                         </tr>
                                     </thead>
@@ -230,6 +193,17 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Downloads Compare Chart Card -->
+                <div class="card downloads-chart-card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <span class="badge badge-outline" data-i18n="downloads_chart_badge">POPULARITY ANALYSIS</span>
+                        <h2 data-i18n="downloads_chart_title">Monthly Downloads Comparison (CRANlogs)</h2>
+                    </div>
+                    <div class="card-body" style="padding: 1.5rem; height: 320px; position: relative;">
+                        <canvas id="downloads-compare-chart"></canvas>
                     </div>
                 </div>
 
@@ -277,9 +251,131 @@
                 </div>
             </aside>
         </main>
+    </div> <!-- End of tab-content-explorer -->
+
+    <!-- MDS Lab Tab Content -->
+    <div id="tab-content-lab" class="tab-content" style="display: none;">
+        <div class="lab-layout">
+            <!-- Parameters Control Card -->
+            <section class="lab-sidebar">
+                <div class="card lab-params-card">
+                    <div class="card-header">
+                        <span class="badge badge-outline" data-i18n="lab_params_badge">R SMACOF ENGINE</span>
+                        <h2 data-i18n="lab_params_title">MDS Configuration</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Dataset Selection -->
+                        <div class="form-group">
+                            <label for="lab-dataset-select" data-i18n="lbl_dataset">Select Distance Dataset</label>
+                            <select id="lab-dataset-select" class="form-select">
+                                <option value="eurodist" data-i18n="opt_eurodist">Eurodist (Built-in R City Distances)</option>
+                                <option value="UScitiesD" data-i18n="opt_uscitiesd">UScitiesD (Built-in R US City Distances)</option>
+                                <option value="custom" data-i18n="opt_custom">Custom Distance Matrix (Upload CSV)</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom CSV Textarea -->
+                        <div class="form-group" id="custom-csv-group" style="display: none;">
+                            <label for="lab-custom-csv" data-i18n="lbl_custom_csv">Custom Matrix CSV Content</label>
+                            <textarea id="lab-custom-csv" placeholder="Paste symmetric distance matrix, e.g.:&#13;&#10;,A,B,C&#13;&#10;A,0,1.2,2.5&#13;&#10;B,1.2,0,3.1&#13;&#10;C,2.5,3.1,0" rows="8"></textarea>
+                            <p class="help-text" data-i18n="help_custom_csv">Format: Square matrix with headers, comma-separated, row names in the first column.</p>
+                        </div>
+
+                        <!-- MDS Scaling Type -->
+                        <div class="form-group">
+                            <label for="lab-type-select" data-i18n="lbl_mds_type">Scaling Transformation Type</label>
+                            <select id="lab-type-select" class="form-select">
+                                <option value="ratio" data-i18n="opt_ratio">Ratio (Metric MDS)</option>
+                                <option value="interval" data-i18n="opt_interval">Interval (Metric MDS)</option>
+                                <option value="ordinal" data-i18n="opt_ordinal">Ordinal (Non-Metric MDS)</option>
+                                <option value="mspline" data-i18n="opt_mspline">Monotone Spline (Mspline MDS)</option>
+                            </select>
+                        </div>
+
+                        <!-- Dimensions -->
+                        <div class="form-group">
+                            <label for="lab-ndim-select" data-i18n="lbl_ndim">Target Dimensions</label>
+                            <select id="lab-ndim-select" class="form-select">
+                                <option value="2" selected>2D (Dimension 1 & 2)</option>
+                                <option value="3">3D (Dimension 1 & 2 & 3)</option>
+                            </select>
+                        </div>
+
+                        <!-- Execute Button -->
+                        <button id="lab-execute-btn" class="btn btn-primary btn-full">
+                            <svg class="icon spinner-icon lab-spinner" id="lab-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="btn-text" data-i18n="btn_run_mds">Execute Scaling</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plot and Results Panel -->
+            <section class="lab-main">
+                <!-- Scatter Plot Card -->
+                <div class="card lab-plot-card">
+                    <div class="card-header">
+                        <span class="badge badge-outline" data-i18n="lab_plot_badge">MDS VISUALIZATION</span>
+                        <h2 data-i18n="lab_plot_title">MDS Projection Chart</h2>
+                    </div>
+                    <div class="card-body plot-canvas-wrapper" style="height: 380px; position: relative;">
+                        <div id="plot-empty-state" class="plot-empty">
+                            <div class="empty-icon">📊</div>
+                            <h3 data-i18n="plot_empty_title">No projection computed</h3>
+                            <p data-i18n="plot_empty_desc">Select a dataset and click "Execute Scaling" to compute the projection and view the interactive plot.</p>
+                        </div>
+                        <div id="plot-container" style="display: none; position: relative; height: 100%; width: 100%;">
+                            <canvas id="mds-scatter-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Results Card -->
+                <div class="card lab-results-card">
+                    <div class="card-header">
+                        <span class="badge badge-outline" data-i18n="lab_stats_badge">MODEL STATISTICS</span>
+                        <h2 data-i18n="lab_stats_title">Fit Evaluation</h2>
+                    </div>
+                    <div class="card-body results-grid">
+                        <div class="result-tile">
+                            <div class="tile-label" data-i18n="res_stress">Stress-1 Value</div>
+                            <div class="tile-value" id="res-stress-val">N/A</div>
+                            <div class="tile-desc" id="res-stress-desc" data-i18n="res_stress_desc">Model fitting error criterion</div>
+                        </div>
+                        <div class="result-tile">
+                            <div class="tile-label" data-i18n="res_iterations">Iterations</div>
+                            <div class="tile-value" id="res-iter-val">N/A</div>
+                            <div class="tile-desc" data-i18n="res_iter_desc">Number of optimization cycles</div>
+                        </div>
+                        <div class="result-tile flex-row">
+                            <button id="lab-export-btn" class="btn btn-secondary" disabled>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                <span data-i18n="btn_export_csv">Export Coordinates CSV</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Console logger output -->
+                <div class="card lab-console-card">
+                    <div class="card-header">
+                        <span class="badge badge-outline">R CONSOLE LOG</span>
+                        <h2 data-i18n="lab_console_title">R Process Execution Output</h2>
+                    </div>
+                    <div class="card-body console-wrapper">
+                        <pre class="console-log" id="lab-console-log">> Ready to run MDS scaling...</pre>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 
-    <!-- Tweet Composer Modal (using standard dialog element) -->
+    <!-- Tweet Composer Modal -->
     <dialog id="tweet-modal" class="glass-modal">
         <div class="modal-content">
             <header class="modal-header">
@@ -334,6 +430,26 @@
                     </button>
                 </div>
             </footer>
+        </div>
+    </dialog>
+
+    <!-- Document Viewer Modal -->
+    <dialog id="viewer-modal" class="glass-modal viewer-modal">
+        <div class="modal-content viewer-content">
+            <header class="modal-header">
+                <div class="modal-title-desc">
+                    <span class="modal-badge" data-i18n="viewer_badge">DOCUMENT VIEWER</span>
+                    <h3 id="viewer-title">Document Name</h3>
+                </div>
+                <button class="close-btn" id="close-viewer-btn" aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </header>
+            <div class="modal-body viewer-body">
+                <iframe id="viewer-iframe" src="" width="100%" height="100%"></iframe>
+            </div>
         </div>
     </dialog>
 

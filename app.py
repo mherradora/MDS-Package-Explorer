@@ -5,8 +5,10 @@ import urllib.request
 import re
 import shutil
 import datetime
+import subprocess
+import tempfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 app = Flask(__name__)
 
@@ -25,7 +27,7 @@ MDS_PACKAGE_NAMES = [
 ]
 
 def load_csv_versions():
-    """Loads package versions and published dates from the CSV file."""
+    """Loads package versions, published dates, downloads, license, and depends from CSV."""
     pkg_data = {}
     if os.path.exists(CSV_PATH):
         try:
@@ -33,35 +35,60 @@ def load_csv_versions():
                 reader = csv.reader(f)
                 header = next(reader, None)
                 if header and header[0].lower() == "package":
-                    # Adapt to older/newer CSV headers
                     header_lower = [h.lower() for h in header]
                     has_published = "published" in header_lower
+                    has_downloads = "downloads" in header_lower
+                    has_license = "license" in header_lower
+                    has_depends = "depends" in header_lower
+                    
                     pub_idx = header_lower.index("published") if has_published else -1
+                    dl_idx = header_lower.index("downloads") if has_downloads else -1
+                    lic_idx = header_lower.index("license") if has_license else -1
+                    dep_idx = header_lower.index("depends") if has_depends else -1
                     ver_idx = header_lower.index("version") if "version" in header_lower else 1
                     
                     for row in reader:
-                        if len(row) > max(ver_idx, pub_idx):
+                        max_idx = max(ver_idx, pub_idx, dl_idx, lic_idx, dep_idx)
+                        if len(row) > max_idx:
                             pkg_name = row[0]
                             version = row[ver_idx]
                             published = row[pub_idx] if has_published and pub_idx < len(row) else "Unknown"
+                            license_val = row[lic_idx] if has_license and lic_idx < len(row) else "Unknown"
+                            depends_val = row[dep_idx] if has_depends and dep_idx < len(row) else "None"
+                            try:
+                                downloads = int(row[dl_idx]) if has_downloads and dl_idx < len(row) else 0
+                            except ValueError:
+                                downloads = 0
+                                
                             pkg_data[pkg_name] = {
                                 "version": version,
-                                "published": published
+                                "published": published,
+                                "downloads": downloads,
+                                "license": license_val,
+                                "depends": depends_val
                             }
         except Exception as e:
             print(f"Error reading CSV: {e}")
     return pkg_data
 
 def save_csv_versions(pkg_data):
-    """Saves package versions and published dates to the CSV file."""
+    """Saves package versions, published dates, downloads, license, and depends to the CSV file."""
     try:
         sorted_data = sorted(pkg_data.items())
         with open(CSV_PATH, mode='w', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["Package", "Version", "Published", "LastChecked"])
+            writer.writerow(["Package", "Version", "Published", "Downloads", "License", "Depends", "LastChecked"])
             now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             for pkg, data in sorted_data:
-                writer.writerow([pkg, data["version"], data["published"], now_str])
+                writer.writerow([
+                    pkg, 
+                    data["version"], 
+                    data["published"], 
+                    data.get("downloads", 0), 
+                    data.get("license", "Unknown"), 
+                    data.get("depends", "None"), 
+                    now_str
+                ])
         print(f"CSV updated successfully at {CSV_PATH}")
     except Exception as e:
         print(f"Error writing CSV: {e}")
@@ -74,19 +101,52 @@ def download_file(url, dest_path):
         with open(dest_path, "wb") as f:
             f.write(response.read())
 
+def fetch_downloads_count(pkg_name):
+    """Queries the CRANlogs API for total downloads in the last month."""
+    url = f"https://cranlogs.r-pkg.org/downloads/total/last-month/{pkg_name}"
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    try:
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            if isinstance(data, list) and len(data) > 0:
+                return data[0].get("downloads", 0)
+            elif isinstance(data, dict):
+                return data.get("downloads", 0)
+            return 0
+    except Exception as e:
+        print(f"[{pkg_name}] Error fetching downloads from CRANlogs: {e}")
+        return 0
+
+def clean_html_tags(text):
+    """Helper to strip HTML tags and normalize whitespace."""
+    if not text:
+        return ""
+    text = re.sub(r'<[^>]+>', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
+
 def sync_package(pkg, csv_data):
-    """Scrapes a single package page, relocates folder, downloads new files if version mismatch."""
+    """Scrapes a single package page, relocates folder, downloads new files and fetches statistics."""
     pkg_name = pkg["name"]
     pkg_id = pkg["id"]
     
     existing_pkg = csv_data.get(pkg_name, {})
     existing_version = existing_pkg.get("version")
     existing_published = existing_pkg.get("published", "Unknown")
+    existing_downloads = existing_pkg.get("downloads", 0)
+    existing_license = existing_pkg.get("license", "Unknown")
+    existing_depends = existing_pkg.get("depends", "None")
     
     pkg_url = f"https://cran.r-project.org/web/packages/{pkg_id}/index.html"
     req = urllib.request.Request(pkg_url, headers={'User-Agent': 'Mozilla/5.0'})
     
     try:
+        # 1. Fetch CRANlogs downloads statistic
+        downloads = fetch_downloads_count(pkg_name)
+        if downloads == 0 and existing_downloads > 0:
+            # Fallback to existing count if API failed temporarily
+            downloads = existing_downloads
+            
         with urllib.request.urlopen(req, timeout=15) as response:
             html = response.read().decode('utf-8', errors='ignore')
             
@@ -94,13 +154,21 @@ def sync_package(pkg, csv_data):
             version_match = re.search(r'<td>Version:</td>\s*<td>(.*?)</td>', html, re.DOTALL)
             if not version_match:
                 print(f"[{pkg_name}] Version info not found on page.")
-                return pkg_name, existing_version, existing_published, "No version found"
+                return pkg_name, existing_version, existing_published, downloads, existing_license, existing_depends, "No version found"
             
             version = version_match.group(1).strip()
             
             # Extract CRAN published date
             published_match = re.search(r'<td>Published:</td>\s*<td>(.*?)</td>', html, re.DOTALL)
             published = published_match.group(1).strip() if published_match else "Unknown"
+            
+            # Extract License
+            license_match = re.search(r'<td>License:</td>\s*<td>(.*?)</td>', html, re.DOTALL)
+            license_str = clean_html_tags(license_match.group(1)) if license_match else "Unknown"
+            
+            # Extract Depends
+            depends_match = re.search(r'<td>Depends:</td>\s*<td>(.*?)</td>', html, re.DOTALL)
+            depends_str = clean_html_tags(depends_match.group(1)) if depends_match else "None"
             
             dest_pkg_dir = os.path.join(MDS_PACKAGES_DIR, pkg_name)
             
@@ -148,14 +216,14 @@ def sync_package(pkg, csv_data):
                         
                 status = f"Updated to {version}"
             
-            return pkg_name, version, published, status
+            return pkg_name, version, published, downloads, license_str, depends_str, status
             
     except Exception as e:
         print(f"Error syncing package {pkg_name}: {e}")
-        return pkg_name, existing_version, existing_published, f"Sync error: {e}"
+        return pkg_name, existing_version, existing_published, existing_downloads, existing_license, existing_depends, f"Sync error: {e}"
 
 def run_global_sync():
-    """Performs the full CRAN scraping, folder relocation, and downloads for all MDS packages."""
+    """Performs the full CRAN scraping, folder relocation, downloads, and stats for all MDS packages."""
     print("Initiating global MDS package sync...")
     
     # 1. Scrape the main CRAN page to get list of packages & descriptions
@@ -215,11 +283,14 @@ def run_global_sync():
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {executor.submit(sync_package, pkg, csv_data): pkg for pkg in packages}
         for future in as_completed(futures):
-            pkg_name, ver, pub, status = future.result()
+            pkg_name, ver, pub, dls, lic, dep, status = future.result()
             if ver:
                 updated_data[pkg_name] = {
                     "version": ver,
-                    "published": pub
+                    "published": pub,
+                    "downloads": dls,
+                    "license": lic,
+                    "depends": dep
                 }
             sync_results[pkg_name] = status
             
@@ -229,7 +300,7 @@ def run_global_sync():
     return True, None
 
 def get_enhanced_packages_list():
-    """Loads packages details and appends version, published date, and download status."""
+    """Loads packages details and appends version, downloads, and download status."""
     if not os.path.exists(CACHE_FILE):
         run_global_sync()
         
@@ -247,6 +318,9 @@ def get_enhanced_packages_list():
         pkg_info = csv_data.get(pkg_name, {})
         version = pkg_info.get("version", "Unknown")
         published = pkg_info.get("published", "Unknown")
+        downloads = pkg_info.get("downloads", 0)
+        license_val = pkg_info.get("license", "Unknown")
+        depends_val = pkg_info.get("depends", "None")
         
         # Check local files availability
         local_dir = os.path.join(MDS_PACKAGES_DIR, pkg_name)
@@ -267,6 +341,9 @@ def get_enhanced_packages_list():
             "url": pkg["url"],
             "version": version,
             "published": published,
+            "downloads": downloads,
+            "license": license_val,
+            "depends": depends_val,
             "downloaded": downloaded,
             "local_path": f"mds_packages/{pkg_name}",
             "documents": sorted(docs)
@@ -334,6 +411,135 @@ def post_tweet():
     }
     save_tweet(new_tweet)
     return jsonify({"success": True, "tweet": new_tweet})
+
+# Serve local package document files (PDFs, Vignettes, Tarballs) directly to client browser
+@app.route("/mds_packages/<path:filename>")
+def serve_package_file(filename):
+    return send_from_directory(MDS_PACKAGES_DIR, filename)
+
+@app.route("/api/run-mds", methods=["POST"])
+def run_mds():
+    data = request.get_json()
+    if not data:
+        return jsonify({"success": False, "error": "No data provided"}), 400
+        
+    dataset = data.get("dataset", "eurodist")
+    mds_type = data.get("type", "ratio")
+    ndim = int(data.get("ndim", 2))
+    custom_csv = data.get("custom_csv", "")
+    
+    if mds_type not in ["ratio", "interval", "ordinal", "mspline"]:
+        return jsonify({"success": False, "error": "Invalid MDS type"}), 400
+    if ndim not in [2, 3]:
+        return jsonify({"success": False, "error": "ndim must be 2 or 3"}), 400
+        
+    temp_files = []
+    try:
+        temp_dir = os.path.join(WORKSPACE_DIR, "scratch", "temp_mds")
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        if dataset == "eurodist":
+            r_dataset_code = "delta <- eurodist"
+        elif dataset == "UScitiesD":
+            r_dataset_code = "delta <- UScitiesD"
+        elif dataset == "custom":
+            if not custom_csv.strip():
+                return jsonify({"success": False, "error": "Custom CSV data is empty"}), 400
+            
+            csv_fd, csv_path = tempfile.mkstemp(suffix=".csv", dir=temp_dir)
+            temp_files.append(csv_path)
+            with os.fdopen(csv_fd, 'w', encoding='utf-8') as f:
+                f.write(custom_csv)
+                
+            r_dataset_code = f'delta <- as.matrix(read.csv("{csv_path}", row.names = 1, check.names = FALSE))'
+        else:
+            return jsonify({"success": False, "error": f"Unknown dataset: {dataset}"}), 400
+            
+        r_script = f"""
+library(smacof)
+library(jsonlite)
+
+# Load dataset
+{r_dataset_code}
+
+# Run SMACOF MDS
+fit <- smacof::mds(delta, ndim = {ndim}, type = "{mds_type}")
+
+# Prepare results
+conf_mat <- as.matrix(fit$conf)
+labels <- rownames(conf_mat)
+if (is.null(labels)) {{
+    labels <- paste0("Obj", 1:nrow(conf_mat))
+}}
+
+res <- list(
+    success = TRUE,
+    stress = fit$stress,
+    niter = fit$niter,
+    points = lapply(1:nrow(conf_mat), function(i) {{
+        val <- list(
+            name = labels[i]
+        )
+        for (d in 1:ncol(conf_mat)) {{
+            val[[paste0("D", d)]] <- conf_mat[i, d]
+        }}
+        return(val)
+    }})
+)
+
+cat(toJSON(res, auto_unbox = TRUE))
+"""
+        r_fd, r_path = tempfile.mkstemp(suffix=".R", dir=temp_dir)
+        temp_files.append(r_path)
+        with os.fdopen(r_fd, 'w', encoding='utf-8') as f:
+            f.write(r_script)
+            
+        process = subprocess.run(
+            ["Rscript", r_path],
+            capture_output=True,
+            text=True,
+            timeout=20
+        )
+        
+        for fpath in temp_files:
+            if os.path.exists(fpath):
+                try:
+                    os.remove(fpath)
+                except Exception:
+                    pass
+                
+        if process.returncode != 0:
+            err_msg = process.stderr.strip() or process.stdout.strip() or "R script failed with unknown error"
+            return jsonify({"success": False, "error": err_msg}), 500
+            
+        stdout_content = process.stdout.strip()
+        json_match = re.search(r'\{"success":.*\}', stdout_content, re.DOTALL)
+        if not json_match:
+            return jsonify({
+                "success": False, 
+                "error": f"Failed to parse R output. R stdout was: {stdout_content}"
+            }), 500
+            
+        result_data = json.loads(json_match.group(0))
+        return jsonify(result_data)
+        
+    except subprocess.TimeoutExpired:
+        for fpath in temp_files:
+            if os.path.exists(fpath):
+                try:
+                    os.remove(fpath)
+                except Exception:
+                    pass
+        return jsonify({"success": False, "error": "R execution timed out"}), 500
+        
+    except Exception as e:
+        for fpath in temp_files:
+            if os.path.exists(fpath):
+                try:
+                    os.remove(fpath)
+                except Exception:
+                    pass
+        return jsonify({"success": False, "error": f"Internal error during execution: {e}"}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

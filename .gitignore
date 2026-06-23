@@ -1,0 +1,54 @@
+# ==========================================================================
+# Git Ignore Rules - MDS Package Explorer Project
+# ==========================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+ENV/
+
+# Local Database & Scraped Caches
+cran_cache.json
+tweet_history.json
+mds_packages.csv
+
+# Downloaded CRAN Package Documents (Tarballs, PDFs, Vignettes)
+mds_packages/
+
+# OS / System
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+bigmemory/

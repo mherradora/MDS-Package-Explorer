@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRAN MDS Explorer | Multidimensional Scaling R Packages</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Main Application Logic -->
+    <script src="/static/js/app.js" defer></script>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <span class="badge" data-i18n="brand_badge">CRAN HUB</span>
+                <h1 data-i18n="app_title">MDS Package Explorer</h1>
+                <p class="subtitle" data-i18n="subtitle">Discover R packages for Multidimensional Scaling and related extensions</p>
+            </div>
+            
+            <div class="header-actions">
+                <!-- Language Selector Dropdown -->
+                <div class="lang-selector-wrapper">
+                    <button id="lang-btn" class="btn btn-secondary" title="Change Language / Cambiar Idioma">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-7a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span id="current-lang-name">English</span>
+                    </button>
+                    <div id="lang-dropdown" class="lang-dropdown-menu" style="display: none;">
+                        <button class="lang-opt" data-lang="en">English</button>
+                        <button class="lang-opt" data-lang="fr">Français</button>
+                        <button class="lang-opt" data-lang="es">Español</button>
+                        <button class="lang-opt" data-lang="ru">Русский</button>
+                        <button class="lang-opt" data-lang="zh">简体中文</button>
+                        <button class="lang-opt" data-lang="ar">العربية</button>
+                    </div>
+                </div>
+
+                <div class="search-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Search packages, keywords..." autocomplete="off">
+                </div>
+                
+                <button id="refresh-btn" class="btn btn-primary" title="Refresh packages list">
+                    <svg class="icon spinner-icon" id="refresh-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="btn-text" data-i18n="sync_cran">Sync CRAN</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="app-layout">
+            <!-- Packages Section -->
+            <section class="packages-section">
+                <!-- README Ecosystem Summary -->
+                <div class="readme-card card">
+                    <div class="readme-header">
+                        <span class="badge badge-outline" data-i18n="readme_badge">README.md</span>
+                        <h2 data-i18n="readme_title">R Multidimensional Scaling Ecosystem</h2>
+                    </div>
+                    <div class="readme-body">
+                        <p class="readme-intro" data-i18n="readme_intro">
+                            This application is an explorer for R packages on CRAN dedicated to Multidimensional Scaling (MDS). 
+                            At the core of the ecosystem is smacof, which implements the majorization algorithm for metric and non-metric MDS. 
+                            Other packages extend its functionality or apply it to specific domains (e.g. genetics, asymmetric distances, and optimization).
+                        </p>
+                        
+                        <!-- Visual Organigram -->
+                        <div class="organigram-container">
+                            <h3 data-i18n="organigram_title">Package Dependency Organigram</h3>
+                            <div class="svg-wrapper">
+                                <svg class="relations-graph" viewBox="0 0 800 360" width="100%" height="320">
+                                    <defs>
+                                        <linearGradient id="glow-line" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.2"/>
+                                            <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.8"/>
+                                            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2"/>
+                                        </linearGradient>
+                                        <marker id="arrow" viewBox="0 0 10 10" refX="24" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6"/>
+                                        </marker>
+                                    </defs>
+                                    
+                                    <!-- Connection Lines to Core Hub -->
+                                    <line x1="200" y1="100" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <line x1="600" y1="100" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <line x1="200" y1="260" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <line x1="600" y1="260" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <line x1="400" y1="60" x2="400" y2="180" stroke="url(#glow-line)" stroke-width="2" marker-end="url(#arrow)"/>
+                                    
+                                    <!-- Core Node (smacof) -->
+                                    <g class="graph-node core-node" transform="translate(400, 180)">
+                                        <circle r="36" fill="#0f132a" stroke="#8b5cf6" stroke-width="3"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-weight="bold" font-size="12">smacof</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#a5b4fc" font-size="8" font-family="monospace">Core Hub</text>
+                                    </g>
+                                    
+                                    <!-- Dependent Nodes -->
+                                    <g class="graph-node dep-node" transform="translate(200, 100)">
+                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">asymmetry</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
+                                    </g>
+                                    
+                                    <g class="graph-node dep-node" transform="translate(600, 100)">
+                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">MDSMap</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
+                                    </g>
+                                    
+                                    <g class="graph-node dep-node" transform="translate(200, 260)">
+                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">mdsOpt</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Depends</text>
+                                    </g>
+                                    
+                                    <g class="graph-node dep-node" transform="translate(600, 260)">
+                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">pams</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Imports</text>
+                                    </g>
+                                    
+                                    <g class="graph-node dep-node" transform="translate(400, 60)">
+                                        <circle r="26" fill="#0c1020" stroke="#38bdf8" stroke-width="2"/>
+                                        <text text-anchor="middle" dy=".3em" fill="#fff" font-size="10">smacofx</text>
+                                        <text text-anchor="middle" dy="2.2em" fill="#38bdf8" font-size="8">Depends</text>
+                                    </g>
+                                    
+                                    <!-- Independent Packages Panel -->
+                                    <g transform="translate(10, 30)">
+                                        <rect width="130" height="290" rx="8" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3"/>
+                                        <text x="65" y="20" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="bold" id="panel-ind-title">Independent MDS</text>
+                                        <text x="65" y="45" text-anchor="middle" fill="#64748b" font-size="8.5">bayMDS</text>
+                                        <text x="65" y="65" text-anchor="middle" fill="#64748b" font-size="8.5">bigmds</text>
+                                        <text x="65" y="85" text-anchor="middle" fill="#64748b" font-size="8.5">bios2mds</text>
+                                        <text x="65" y="105" text-anchor="middle" fill="#64748b" font-size="8.5">DistatisR</text>
+                                        <text x="65" y="125" text-anchor="middle" fill="#64748b" font-size="8.5">fmds</text>
+                                        <text x="65" y="145" text-anchor="middle" fill="#64748b" font-size="8.5">focusedMDS</text>
+                                        <text x="65" y="165" text-anchor="middle" fill="#64748b" font-size="8.5">lmds</text>
+                                        <text x="65" y="185" text-anchor="middle" fill="#64748b" font-size="8.5">MDSGUI</text>
+                                        <text x="65" y="205" text-anchor="middle" fill="#64748b" font-size="8.5">MDSPCAShiny</text>
+                                        <text x="65" y="225" text-anchor="middle" fill="#64748b" font-size="8.5">semds</text>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="chart-caption">
+                                <span class="legend-item"><span class="legend-dot dot-core"></span> <span data-i18n="legend_core">Core Hub</span></span>
+                                <span class="legend-item"><span class="legend-dot dot-dep"></span> <span data-i18n="legend_dep">Imports / Depends</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Summary Table -->
+                        <div class="readme-table-wrapper">
+                            <h3 data-i18n="rel_table_title">Ecosystem Relationships</h3>
+                            <table class="readme-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="th_package">Package</th>
+                                        <th data-i18n="th_integration">Integration Type</th>
+                                        <th data-i18n="th_role">Primary Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="table-pkg">smacof</span></td>
+                                        <td><span class="rel-badge core" data-i18n="badge_core">Core Engine</span></td>
+                                        <td data-i18n="role_smacof">Multidimensional Scaling (majorization algorithms)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="table-pkg">smacofx</span></td>
+                                        <td><span class="rel-badge depends" data-i18n="badge_depends">Depends on smacof</span></td>
+                                        <td data-i18n="role_smacofx">Flexible multidimensional scaling and smacof extensions</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="table-pkg">mdsOpt</span></td>
+                                        <td><span class="rel-badge depends" data-i18n="badge_depends">Depends on smacof</span></td>
+                                        <td data-i18n="role_mdsopt">Optimal MDS procedure search for metric and interval data</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="table-pkg">asymmetry</span></td>
+                                        <td><span class="rel-badge imports" data-i18n="badge_imports">Imports smacof</span></td>
+                                        <td data-i18n="role_asymmetry">Multidimensional scaling of asymmetric proximities</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="table-pkg">MDSMap</span></td>
+                                        <td><span class="rel-badge imports" data-i18n="badge_imports">Imports smacof</span></td>
+                                        <td data-i18n="role_mdsmap">High density genetic linkage mapping using MDS</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="table-pkg">pams</span></td>
+                                        <td><span class="rel-badge imports" data-i18n="badge_imports">Imports smacof</span></td>
+                                        <td data-i18n="role_pams">Profile analysis via multidimensional scaling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Local CSV Registry Table -->
+                        <div class="readme-table-wrapper">
+                            <h3 data-i18n="csv_table_title">Local Registry (mds_packages.csv)</h3>
+                            <div class="table-scroll-container">
+                                <table class="readme-table" id="csv-table">
+                                    <thead>
+                                        <tr>
+                                            <th data-i18n="th_package">Package</th>
+                                            <th data-i18n="th_version">Version</th>
+                                            <th data-i18n="th_published">Published Date</th>
+                                            <th data-i18n="th_sync">Sync Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="csv-table-body">
+                                        <!-- Dynamically populated from JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2><span data-i18n="packages_header_text">MDS Packages</span> <span class="counter" id="pkg-count">0</span></h2>
+                    <div class="stats-badge" id="last-sync-badge">Last Synced: Just now</div>
+                </div>
+                
+                <!-- Skeleton Loader -->
+                <div class="packages-grid skeleton-grid" id="skeleton-loader">
+                    <div class="card skeleton-card"></div>
+                    <div class="card skeleton-card"></div>
+                    <div class="card skeleton-card"></div>
+                    <div class="card skeleton-card"></div>
+                    <div class="card skeleton-card"></div>
+                    <div class="card skeleton-card"></div>
+                </div>
+                
+                <!-- Real Packages Grid -->
+                <div class="packages-grid" id="packages-grid" style="display: none;">
+                    <!-- Dynamically populated -->
+                </div>
+                
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <div class="empty-icon">📂</div>
+                    <h3 data-i18n="empty_title">No packages found</h3>
+                    <p data-i18n="empty_desc">Try refining your search keyword or click Sync CRAN to fetch the latest details.</p>
+                </div>
+            </section>
+            
+            <!-- Tweet Timeline Section -->
+            <aside class="timeline-section">
+                <div class="section-header">
+                    <h2 data-i18n="twitter_title">Mock Twitter Feed</h2>
+                    <span class="badge badge-outline" data-i18n="twitter_live">Live Broadcast</span>
+                </div>
+                
+                <div class="tweets-timeline" id="tweets-timeline">
+                    <!-- Dynamically populated -->
+                    <div class="timeline-empty">
+                        <div class="bird-icon">🐦</div>
+                        <p data-i18n="twitter_empty">No tweets posted yet. Click the "Tweet" button on any package card to share the updates!</p>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Tweet Composer Modal (using standard dialog element) -->
+    <dialog id="tweet-modal" class="glass-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <div class="modal-title-desc">
+                    <span class="modal-badge" data-i18n="modal_badge">TWEET COMPOSER</span>
+                    <h3 id="modal-package-title">Tweet about package</h3>
+                </div>
+                <button class="close-btn" id="close-modal-btn" aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="tweet-composer-card">
+                    <div class="user-avatar">
+                        <div class="avatar-placeholder">R</div>
+                    </div>
+                    <div class="composer-main">
+                        <div class="user-info">
+                            <span class="user-display" data-i18n="user_display">R Stats MDS</span>
+                            <span class="user-handle" data-i18n="user_handle">@rstats_mds</span>
+                        </div>
+                        <textarea id="tweet-textarea" placeholder="What's happening in the MDS world?" maxlength="280"></textarea>
+                        
+                        <!-- Real-time tweet card preview -->
+                        <div class="tweet-preview-card">
+                            <div class="preview-url-domain">cran.r-project.org</div>
+                            <div class="preview-pkg-name" id="preview-pkg-name">Package Name</div>
+                            <div class="preview-pkg-desc" id="preview-pkg-desc">Package description here...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="char-counter-container">
+                    <span id="char-counter">280</span> <span data-i18n="chars_left">characters left</span>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="real-tweet-btn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        <span data-i18n="open_x">Open in X (Twitter)</span>
+                    </button>
+                    <button class="btn btn-primary" id="post-mock-btn">
+                        <span class="btn-text" data-i18n="post_mock">Post Mock Tweet</span>
+                        <div class="btn-spinner" id="mock-btn-spinner" style="display: none;"></div>
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+</body>
+</html>

@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
             dir: "ltr",
             brand_badge: "CRAN HUB",
             app_title: "MDS Package Explorer",
-            subtitle: "Discover R packages for Multidimensional Scaling and related extensions",
+            subtitle: "Discover R and Python packages for Multidimensional Scaling and related extensions",
             search_placeholder: "Search packages, keywords...",
             sync_cran: "Sync CRAN",
             readme_badge: "README.md",
-            readme_title: "R Multidimensional Scaling Ecosystem",
-            readme_intro: "This application is an explorer for R packages on CRAN dedicated to Multidimensional Scaling (MDS). At the core of the ecosystem is <strong class=\"highlight-text\">smacof</strong>, which implements the majorization algorithm for metric and non-metric MDS. Other packages extend its functionality or apply it to specific domains (e.g. genetics, asymmetric distances, and optimization).",
+            readme_title: "R and Python Multidimensional Scaling Ecosystem",
+            readme_intro: "This application is an explorer for packages in R and Python dedicated to Multidimensional Scaling (MDS). At the core of the R ecosystem is <strong class=\"highlight-text\">smacof</strong>, which implements the majorization algorithm for metric and non-metric MDS, alongside popular Python implementations such as scikit-learn, UMAP, and openTSNE.",
             organigram_title: "Package Dependency Organigram",
             legend_core: "Core Hub",
             legend_dep: "Imports / Depends",
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "Ecosystem Relationships",
             csv_table_title: "Local Registry (mds_packages.csv)",
             th_package: "Package",
+            th_lang: "Language",
             th_integration: "Integration Type",
             th_role: "Primary Role",
             th_version: "Version",
@@ -56,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Modal Tweet
             modal_badge: "TWEET COMPOSER",
             modal_title: "Tweet about package",
-            user_display: "R Stats MDS",
-            user_handle: "@rstats_mds",
+            user_display: "MDS Stats (R & Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "What's happening in the MDS world?",
             chars_left: "characters left",
             open_x: "Open in X (Twitter)",
@@ -87,19 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "Sort by Name",
             sort_downloads: "Sort by Downloads",
             sort_date: "Sort by Date",
-            btn_view: "View"
+            filter_all_lang: "All Languages (R & Python)",
+            filter_r_only: "R Packages",
+            filter_py_only: "Python Packages",
+            badge_py_pkg: "Python package",
+            btn_view: "View",
+            pypi_banner_title: "Looking for Python MDS alternatives?",
+            pypi_banner_desc: "Discover Python packages and implementations related to multidimensional scaling on PyPI.",
+            pypi_search_action: "Search PyPI Packages"
         },
         fr: {
             name: "Français",
             dir: "ltr",
             brand_badge: "HUB CRAN",
             app_title: "Explorateur de Packages MDS",
-            subtitle: "Découvrez les packages R pour le positionnement multidimensionnel (MDS) et leurs extensions",
+            subtitle: "Découvrez les packages R et Python pour le positionnement multidimensionnel (MDS) et leurs extensions",
             search_placeholder: "Rechercher des packages, mots-clés...",
             sync_cran: "Sync CRAN",
             readme_badge: "README.md",
-            readme_title: "Écosystème de Positionnement Multidimensionnel en R",
-            readme_intro: "Cette application est un explorateur pour les packages R sur CRAN dédiés au positionnement multidimensionnel (MDS). Au cœur de l'écosystème se trouve <strong class=\"highlight-text\">smacof</strong>, qui implémente l'algorithme de majoration pour le MDS métrique et non métrique. D'autres packages étendent ses fonctionnalités ou l'appliquent à des domaines spécifiques (ex. génétique, distances asymétriques et optimisation).",
+            readme_title: "Écosystème de Positionnement Multidimensionnel en R et Python",
+            readme_intro: "Cette application est un explorateur pour les packages en R et Python dédiés au positionnement multidimensionnel (MDS). Au cœur de l'écosystème R se trouve <strong class=\"highlight-text\">smacof</strong>, qui implémente l'algorithme de majoration pour le MDS métrique et non métrique, aux côtés des implémentations Python populaires telles que scikit-learn, UMAP et openTSNE.",
             organigram_title: "Organigramme des Dépendances des Packages",
             legend_core: "Noyau Central",
             legend_dep: "Imports / Dépendances",
@@ -107,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "Relations de l'Écosystème",
             csv_table_title: "Registre Local (mds_packages.csv)",
             th_package: "Package",
+            th_lang: "Langage",
             th_integration: "Type d'Intégration",
             th_role: "Rôle Principal",
             th_version: "Version",
@@ -135,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             modal_badge: "COMPOSITEUR DE TWEET",
             modal_title: "Tweeter sur le package",
-            user_display: "R Stats MDS",
-            user_handle: "@rstats_mds",
+            user_display: "MDS Stats (R & Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "Que se passe-t-il dans le monde du MDS ?",
             chars_left: "caractères restants",
             open_x: "Ouvrir dans X (Twitter)",
@@ -164,19 +173,26 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "Trier par Nom",
             sort_downloads: "Trier par Téléchargements",
             sort_date: "Trier par Date",
-            btn_view: "Voir"
+            filter_all_lang: "Toutes les Langues (R & Python)",
+            filter_r_only: "Packages R",
+            filter_py_only: "Packages Python",
+            badge_py_pkg: "Package Python",
+            btn_view: "Voir",
+            pypi_banner_title: "Vous cherchez des alternatives Python pour le MDS ?",
+            pypi_banner_desc: "Découvrez les packages et implémentations Python liés au positionnement multidimensionnel sur PyPI.",
+            pypi_search_action: "Rechercher sur PyPI"
         },
         es: {
             name: "Español",
             dir: "ltr",
             brand_badge: "CENTRO CRAN",
             app_title: "Explorador de Paquetes MDS",
-            subtitle: "Descubre paquetes de R para Escalado Multidimensional (MDS) y sus extensiones relacionadas",
+            subtitle: "Descubre paquetes de R y Python para Escalado Multidimensional (MDS) y sus extensiones relacionadas",
             search_placeholder: "Buscar paquetes, palabras clave...",
             sync_cran: "Sincronizar CRAN",
             readme_badge: "README.md",
-            readme_title: "Ecosistema de Escalado Multidimensional en R",
-            readme_intro: "Esta aplicación es un explorador de paquetes de R en CRAN dedicados al Escalado Multidimensional (MDS). En el núcleo del ecosistema está <strong class=\"highlight-text\">smacof</strong>, que implementa el algoritmo de mayoración para MDS métrico y no métrico. Otros paquetes extienden su funcionalidad o la aplican a dominios específicos (ej. genética, distancias asimétricas y optimización).",
+            readme_title: "Ecosistema de Escalado Multidimensional en R y Python",
+            readme_intro: "Esta aplicación es un explorador de paquetes de R y Python dedicados al Escalado Multidimensional (MDS). En el núcleo del ecosistema de R está <strong class=\"highlight-text\">smacof</strong>, que implementa el algoritmo de mayoración para MDS métrico y no métrico, junto con implementaciones populares en Python como scikit-learn, UMAP y openTSNE.",
             organigram_title: "Organigrama de Dependencias de Paquetes",
             legend_core: "Núcleo Central",
             legend_dep: "Imports / Dependencias",
@@ -184,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "Relaciones del Ecosistema",
             csv_table_title: "Registro Local (mds_packages.csv)",
             th_package: "Paquete",
+            th_lang: "Lenguaje",
             th_integration: "Tipo de Integración",
             th_role: "Rol Principal",
             th_version: "Versión",
@@ -212,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             modal_badge: "COMPOSITOR DE TWEET",
             modal_title: "Tuitear sobre el paquete",
-            user_display: "R Stats MDS",
-            user_handle: "@rstats_mds",
+            user_display: "MDS Stats (R y Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "¿Qué está pasando en el mundo del MDS?",
             chars_left: "caracteres restantes",
             open_x: "Abrir en X (Twitter)",
@@ -241,19 +258,26 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "Ordenar por Nombre",
             sort_downloads: "Ordenar por Descargas",
             sort_date: "Ordenar por Fecha",
-            btn_view: "Ver"
+            filter_all_lang: "Todos los Lenguajes (R y Python)",
+            filter_r_only: "Paquetes de R",
+            filter_py_only: "Paquetes de Python",
+            badge_py_pkg: "Paquete Python",
+            btn_view: "Ver",
+            pypi_banner_title: "¿Buscas alternativas de MDS en Python?",
+            pypi_banner_desc: "Descubre paquetes e implementaciones en Python relacionados con el escalado multidimensional en PyPI.",
+            pypi_search_action: "Buscar en PyPI"
         },
         ru: {
             name: "Русский",
             dir: "ltr",
             brand_badge: "ЦЕНТР CRAN",
             app_title: "Обзор Пакетов MDS",
-            subtitle: "Откройте для себя пакеты R для многомерного шкалирования (MDS) и их расширения",
+            subtitle: "Откройте для себя пакеты R и Python для многомерного шкалирования (MDS) и их расширения",
             search_placeholder: "Поиск пакетов, ключевых слов...",
-            sync_cran: "Синхронизация CRAN",
+            sync_cran: "Sync CRAN",
             readme_badge: "README.md",
-            readme_title: "Экосистема Многомерного Шкалирования в R",
-            readme_intro: "Это приложение предназначено для изучения пакетов R в репозитории CRAN, связанных с многомерным шкалированием (MDS). В основе экосистемы лежит пакет <strong class=\"highlight-text\">smacof</strong>, реализующий алгоритм мажоризации для метрического и неметрического MDS. Другие пакеты расширяют его функционал или применяют его в специальных областях (например, генетике, асимметричных расстояниях и оптимизации).",
+            readme_title: "Экосистема Многомерного Шкалирования в R и Python",
+            readme_intro: "Это приложение предназначено для изучения пакетов R и Python, связанных с многомерным шкалированием (MDS). В основе экосистемы R лежит пакет <strong class=\"highlight-text\">smacof</strong>, реализующий алгоритм мажоризации для метрического и неметрического MDS, а также популярные реализации Python, такие как scikit-learn, UMAP и openTSNE.",
             organigram_title: "Органограмма Зависимостей Пакетов",
             legend_core: "Ядро Системы",
             legend_dep: "Импорт / Зависимости",
@@ -261,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "Взаимосвязи Экосистемы",
             csv_table_title: "Локальный Реестр (mds_packages.csv)",
             th_package: "Пакет",
+            th_lang: "Язык",
             th_integration: "Тип Интеграции",
             th_role: "Основная Роль",
             th_version: "Версия",
@@ -289,8 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             modal_badge: "РЕДАКТОР ТВИТОВ",
             modal_title: "Твитнуть о пакете",
-            user_display: "R Stats MDS",
-            user_handle: "@rstats_mds",
+            user_display: "MDS Stats (R и Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "Что происходит в мире MDS?",
             chars_left: "символов осталось",
             open_x: "Открыть в X (Twitter)",
@@ -318,19 +343,26 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "Сортировать по имени",
             sort_downloads: "Сортировать по загрузкам",
             sort_date: "Сортировать по дате",
-            btn_view: "Смотреть"
+            filter_all_lang: "Все языки (R и Python)",
+            filter_r_only: "Пакеты R",
+            filter_py_only: "Пакеты Python",
+            badge_py_pkg: "Пакет Python",
+            btn_view: "Смотреть",
+            pypi_banner_title: "Ищете альтернативы MDS на Python?",
+            pypi_banner_desc: "Откройте для себя пакеты и реализации многомерного шкалирования на Python в PyPI.",
+            pypi_search_action: "Искать пакеты на PyPI"
         },
         zh: {
             name: "简体中文",
             dir: "ltr",
             brand_badge: "CRAN 中心",
             app_title: "MDS 程序包管理器",
-            subtitle: "探索用于多维度量表 (MDS) 的 R 语言程序包及其相关扩展",
+            subtitle: "探索用于多维度量表 (MDS) 的 R 与 Python 语言程序包及其相关扩展",
             search_placeholder: "搜索程序包、关键字...",
             sync_cran: "同步 CRAN",
             readme_badge: "README.md",
-            readme_title: "R 语言多维度量表 (MDS) 生态系统",
-            readme_intro: "此应用程序是致力于多维度量表 (MDS) 的 CRAN R 程序包探索器。该生态系统的核心是 <strong class=\"highlight-text\">smacof</strong>，它实现了度量和非度量 MDS 的主化算法。其他程序包扩展了其功能或应用于特定领域（例如：遗传学、非对称距离和优化）。",
+            readme_title: "R 与 Python 语言多维度量表 (MDS) 生态系统",
+            readme_intro: "此应用程序是致力于多维度量表 (MDS) 的 R 与 Python 程序包探索器。该生态系统中，R 语言核心是 <strong class=\"highlight-text\">smacof</strong>（实现了度量和非度量 MDS 的主化算法），同时涵盖了 scikit-learn、UMAP 以及 openTSNE 等流行 Python 算法库。",
             organigram_title: "程序包依赖性关系图",
             legend_core: "核心枢纽",
             legend_dep: "导入 / 依赖",
@@ -338,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "生态系统关系",
             csv_table_title: "本地注册表 (mds_packages.csv)",
             th_package: "程序包",
+            th_lang: "编程语言",
             th_integration: "集成类型",
             th_role: "主要角色",
             th_version: "版本",
@@ -366,8 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             modal_badge: "推文编辑框",
             modal_title: "推特发布该程序包",
-            user_display: "R Stats MDS",
-            user_handle: "@rstats_mds",
+            user_display: "MDS 统计 (R 与 Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "MDS 领域有什么新鲜事？",
             chars_left: "剩余字符",
             open_x: "在 X (Twitter) 中打开",
@@ -395,19 +428,26 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "按名称排序",
             sort_downloads: "按下载量排序",
             sort_date: "按日期排序",
-            btn_view: "查看"
+            filter_all_lang: "所有语言 (R 与 Python)",
+            filter_r_only: "R 语言程序包",
+            filter_py_only: "Python 语言程序包",
+            badge_py_pkg: "Python 程序包",
+            btn_view: "查看",
+            pypi_banner_title: "正在寻找 Python MDS 替代方案？",
+            pypi_banner_desc: "在 PyPI 上发现与多维度量表 (MDS) 相关的 Python 程序包与实现。",
+            pypi_search_action: "在 PyPI 上搜索程序包"
         },
         ar: {
             name: "العربية",
             dir: "rtl",
             brand_badge: "مركز كران",
             app_title: "مستكشف حزم MDS",
-            subtitle: "اكتشف حزم R للمقياس متعدد الأبعاد (MDS) والامتدادات المرتبطة بها",
+            subtitle: "اكتشف حزم R و Python للمقياس متعدد الأبعاد (MDS) والامتدادات المرتبطة بها",
             search_placeholder: "البحث عن الحزم، الكلمات المفتاحية...",
             sync_cran: "مزامنة كران",
             readme_badge: "README.md",
-            readme_title: "نظام المقاييس متعددة الأبعاد (MDS) في R",
-            readme_intro: "هذا التطبيق عبارة عن مستكشف لحزم R على شبكة CRAN المخصصة للمقياس متعدد الأبعاد (MDS). تقع حزمة <strong class=\"highlight-text\">smacof</strong> في قلب النظام، وتنفذ خوارزمية التعظيم للمقاييس المترية وغير المترية. وتقوم الحزم الأخرى بتوسيع وظائفها أو تطبيقها على مجالات محددة (مثل علم الوراثة، والمسافات غير المتماثلة، والتحسين).",
+            readme_title: "نظام المقاييس متعددة الأبعاد (MDS) في R و Python",
+            readme_intro: "هذا التطبيق عبارة عن مستكشف لحزم لغتي R و Python المخصصة للمقياس متعدد الأبعاد (MDS). تقع حزمة <strong class=\"highlight-text\">smacof</strong> في قلب نظام R (خوارزمية التعظيم للمقاييس المترية وغير المترية)، إلى جانب حزم بايثون الرائدة مثل scikit-learn و UMAP و openTSNE.",
             organigram_title: "مخطط هيكلي لعلاقات تبعية الحزم",
             legend_core: "المحور الأساسي",
             legend_dep: "استيراد / تبعيات",
@@ -415,6 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rel_table_title: "علاقات النظام البيئي",
             csv_table_title: "السجل المحلي (mds_packages.csv)",
             th_package: "الحزمة",
+            th_lang: "لغة البرمجة",
             th_integration: "نوع التكامل",
             th_role: "الدور الأساسي",
             th_version: "الإصدار",
@@ -443,8 +484,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             modal_badge: "منشئ التغريدات",
             modal_title: "التغريد عن الحزمة",
-            user_display: "إحصائيات R MDS",
-            user_handle: "@rstats_mds",
+            user_display: "إحصائيات MDS (R و Python)",
+            user_handle: "@mds_stats",
             composer_placeholder: "ماذا يحدث في عالم MDS؟",
             chars_left: "أحرف متبقية",
             open_x: "افتح في X (تويتر)",
@@ -472,7 +513,15 @@ document.addEventListener('DOMContentLoaded', () => {
             sort_name: "ترتيب حسب الاسم",
             sort_downloads: "ترتيب حسب التحميلات",
             sort_date: "ترتيب حسب التاريخ",
-            btn_view: "عرض"
+            filter_all_lang: "جميع اللغات (R و Python)",
+            filter_r_only: "حزم R",
+            filter_py_only: "حزم Python",
+            badge_py_pkg: "حزمة Python",
+            btn_view: "عرض",
+            pypi_banner_title: "هل تبحث عن بدائل MDS بلغة بايثون؟",
+            pypi_banner_desc: "اكتشف حزم بايثون والتطبيقات المتعلقة بالمقاييس متعددة الأبعاد على PyPI.",
+            pypi_search_action: "البحث في حزم PyPI"
+        }
     };
 
     // Extend Translations with MDS Lab and Popularity Chart keys
@@ -507,7 +556,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "Export Coordinates CSV",
         lab_console_title: "R Process Output",
         downloads_chart_badge: "POPULARITY ANALYSIS",
-        downloads_chart_title: "Monthly Downloads Comparison (CRANlogs)",
+        downloads_chart_title: "Monthly Downloads Comparison",
+        chart_r_title: "R Packages (CRAN)",
+        chart_r_source: "Source: CRANlogs API",
+        chart_python_title: "Python Packages (PyPI)",
+        chart_python_source: "Source: PyPIStats API",
         legend_ind: "Independent MDS"
     });
 
@@ -542,7 +595,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "Exportar Coordenadas CSV",
         lab_console_title: "Resultado del Proceso de R",
         downloads_chart_badge: "ANÁLISIS DE POPULARIDAD",
-        downloads_chart_title: "Comparación de Descargas Mensuales (CRANlogs)",
+        downloads_chart_title: "Comparación de Descargas Mensuales",
+        chart_r_title: "Paquetes de R (CRAN)",
+        chart_r_source: "Fuente: API CRANlogs",
+        chart_python_title: "Paquetes de Python (PyPI)",
+        chart_python_source: "Fuente: API PyPIStats",
         legend_ind: "MDS Independientes"
     });
 
@@ -577,7 +634,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "Exporter les Coordonnées CSV",
         lab_console_title: "Résultat d'Exécution du Processus R",
         downloads_chart_badge: "ANALYSE DE POPULARITÉ",
-        downloads_chart_title: "Comparaison des Téléchargements Mensuels (CRANlogs)",
+        downloads_chart_title: "Comparaison des Téléchargements Mensuels",
+        chart_r_title: "Packages R (CRAN)",
+        chart_r_source: "Source: API CRANlogs",
+        chart_python_title: "Packages Python (PyPI)",
+        chart_python_source: "Source: API PyPIStats",
         legend_ind: "MDS Indépendants"
     });
 
@@ -612,7 +673,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "Экспорт координат в CSV",
         lab_console_title: "Результаты выполнения процесса R",
         downloads_chart_badge: "АНАЛИЗ ПОПУЛЯРНОСТИ",
-        downloads_chart_title: "Сравнение ежемесячных загрузок (CRANlogs)",
+        downloads_chart_title: "Сравнение ежемесячных загрузок",
+        chart_r_title: "Пакеты R (CRAN)",
+        chart_r_source: "Источник: CRANlogs API",
+        chart_python_title: "Пакеты Python (PyPI)",
+        chart_python_source: "Источник: PyPIStats API",
         legend_ind: "Независимые MDS"
     });
 
@@ -647,7 +712,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "导出坐标 CSV",
         lab_console_title: "R 进程执行输出",
         downloads_chart_badge: "流行度分析",
-        downloads_chart_title: "每月下载量对比 (CRANlogs)",
+        downloads_chart_title: "每月下载量对比",
+        chart_r_title: "R 软件包 (CRAN)",
+        chart_r_source: "数据来源：CRANlogs API",
+        chart_python_title: "Python 软件包 (PyPI)",
+        chart_python_source: "数据来源：PyPIStats API",
         legend_ind: "独立 MDS"
     });
 
@@ -682,7 +751,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn_export_csv: "تصدير الإحداثيات CSV",
         lab_console_title: "مخرجات تنفيذ عملية R",
         downloads_chart_badge: "تحليل الشعبية",
-        downloads_chart_title: "مقارنة التنزيلات الشهرية (CRANlogs)",
+        downloads_chart_title: "مقارنة التنزيلات الشهرية",
+        chart_r_title: "حزم R (CRAN)",
+        chart_r_source: "المصدر: واجهة CRANlogs API",
+        chart_python_title: "حزم Python (PyPI)",
+        chart_python_source: "المصدر: واجهة PyPIStats API",
         legend_ind: "MDS مستقل"
     });
 
@@ -690,7 +763,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allPackages = [];
     let activePackage = null;
     let currentLang = localStorage.getItem('mds_explorer_lang') || 'en';
-    let downloadsCompareChart = null;
+    let downloadsCompareChartR = null;
+    let downloadsCompareChartPython = null;
     let mdsScatterChart = null;
     let currentMdsCoords = null;
     let visNetwork = null;
@@ -699,6 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         searchInput: document.getElementById('search-input'),
         sortSelect: document.getElementById('sort-select'),
+        pkgLangFilter: document.getElementById('pkg-lang-filter'),
         refreshBtn: document.getElementById('refresh-btn'),
         refreshSpinner: document.getElementById('refresh-spinner'),
         packagesGrid: document.getElementById('packages-grid'),
@@ -707,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pkgCount: document.getElementById('pkg-count'),
         lastSyncBadge: document.getElementById('last-sync-badge'),
         tweetsTimeline: document.getElementById('tweets-timeline'),
+        pypiSearchLink: document.getElementById('pypi-search-link'),
         csvTableBody: document.getElementById('csv-table-body'),
         
         // Language selectors
@@ -808,6 +884,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Translate sorting select options directly
         if (elements.sortSelect) {
             elements.sortSelect.querySelectorAll('option').forEach(opt => {
+                const key = opt.getAttribute('data-i18n');
+                if (langData[key]) {
+                    opt.textContent = langData[key];
+                }
+            });
+        }
+
+        // Translate language filter select options directly
+        if (elements.pkgLangFilter) {
+            elements.pkgLangFilter.querySelectorAll('option').forEach(opt => {
                 const key = opt.getAttribute('data-i18n');
                 if (langData[key]) {
                     opt.textContent = langData[key];
@@ -925,18 +1011,24 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.packagesGrid.style.display = 'grid';
         elements.pkgCount.textContent = packagesList.length;
 
-        // Render the local CSV registry table dynamically (alphabetically sorted)
+        // Render the local CSV registry table dynamically (sorted by downloads)
         if (elements.csvTableBody) {
             elements.csvTableBody.innerHTML = '';
-            const sortedList = [...packagesList].sort((a, b) => a.name.localeCompare(b.name));
+            const sortedList = [...packagesList].sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
             sortedList.forEach(pkg => {
                 const tr = document.createElement('tr');
                 const statusBadgeText = pkg.downloaded ? langData.status_synced : langData.status_pending;
                 const syncBadge = pkg.downloaded 
                     ? `<span class="rel-badge imports" style="font-size:0.7rem; padding:0.1rem 0.4rem;">${statusBadgeText}</span>`
                     : `<span class="rel-badge depends" style="background:rgba(234,179,8,0.12); border:1px solid rgba(234,179,8,0.25); color:#eab308; font-size:0.7rem; padding:0.1rem 0.4rem;">${statusBadgeText}</span>`;
+                const isPy = (pkg.language || '').toLowerCase() === 'python';
+                const langClass = isPy ? 'py-lang' : 'r-lang';
+                const langTitle = isPy ? langData.badge_py_pkg : langData.badge_r_pkg;
+                const langText = isPy ? 'Python' : 'R';
+                
                 tr.innerHTML = `
                     <td><span class="table-pkg">${pkg.name}</span></td>
+                    <td><span class="pkg-lang-badge ${langClass}" title="${langTitle}">${langText}</span></td>
                     <td><span class="pkg-version" style="font-size:0.72rem;">v${pkg.version}</span></td>
                     <td><span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">${pkg.published}</span></td>
                     <td><span style="font-family:var(--font-mono); font-size:0.8rem; font-weight:600; color:var(--primary);">${pkg.downloads.toLocaleString()}</span></td>
@@ -999,16 +1091,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
             
+            const isPy = (pkg.language || '').toLowerCase() === 'python';
+            const langClass = isPy ? 'py-lang' : 'r-lang';
+            const langTitle = isPy ? langData.badge_py_pkg : langData.badge_r_pkg;
+            const langText = isPy ? 'Python' : 'R';
+            const projectTypeTitle = isPy ? 'Open PyPI webpage' : 'Open CRAN webpage';
+
             card.innerHTML = `
                 <div class="card-header">
                     <div class="title-wrapper">
                         <h3 class="pkg-title">${pkg.name}</h3>
+                        <span class="pkg-lang-badge ${langClass}" title="${langTitle}">${langText}</span>
                         <span class="pkg-version">v${pkg.version}</span>
                         <span class="pkg-downloads-badge" title="Downloads in the last month">
                             📈 ${pkg.downloads.toLocaleString()} ${langData.downloads_suffix}
                         </span>
                     </div>
-                    <a href="${pkg.url}" target="_blank" rel="noopener noreferrer" class="card-link" title="Open CRAN webpage">
+                    <a href="${pkg.url}" target="_blank" rel="noopener noreferrer" class="card-link" title="${projectTypeTitle}">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
@@ -1017,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="pkg-desc">${pkg.description}</p>
                 ${docsHTML}
                 <div class="card-footer" style="flex-wrap: wrap; gap: 0.5rem;">
+                    <span class="pkg-lang-badge ${langClass}" title="${langTitle}">${langText}</span>
                     <span class="pkg-tech-badge" title="License">🔑 ${pkg.license}</span>
                     <span class="pkg-tech-badge" style="background:rgba(139,92,246,0.1); border-color:rgba(139,92,246,0.25); color:#a78bfa;" title="Depends">⚙️ ${pkg.depends}</span>
                     <button class="btn-tweet" data-pkg-id="${pkg.id}">
@@ -1144,22 +1244,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Filter & Sort Logic
     function filterAndRenderPackages() {
         const query = elements.searchInput.value.toLowerCase().trim();
+        
+        // Dynamically update PyPI search link with current search term or multidimensional scaling query
+        if (elements.pypiSearchLink) {
+            const pypiQuery = query || "multidimensional scaling";
+            elements.pypiSearchLink.href = `https://pypi.org/search/?q=${encodeURIComponent(pypiQuery)}`;
+        }
+
         let filtered = [...allPackages];
         
-        // 1. Filter packages by query matching name or description
+        // 1. Filter packages by language selector (All, R, Python)
+        const selectedLang = elements.pkgLangFilter ? elements.pkgLangFilter.value : 'all';
+        if (selectedLang !== 'all') {
+            filtered = filtered.filter(pkg => (pkg.language || '').toLowerCase() === selectedLang.toLowerCase());
+        }
+
+        // 2. Filter packages by query matching name, description, or language
         if (query) {
             filtered = filtered.filter(pkg => 
                 pkg.name.toLowerCase().includes(query) || 
-                pkg.description.toLowerCase().includes(query)
+                pkg.description.toLowerCase().includes(query) ||
+                (pkg.language && pkg.language.toLowerCase().includes(query))
             );
         }
         
-        // 2. Sort packages based on selected dropdown sorting mode
-        const sortMode = elements.sortSelect ? elements.sortSelect.value : 'name';
-        if (sortMode === 'name') {
+        // 3. Sort packages based on selected dropdown sorting mode (default: downloads)
+        const sortMode = elements.sortSelect ? elements.sortSelect.value : 'downloads';
+        if (sortMode === 'downloads') {
+            filtered.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+        } else if (sortMode === 'name') {
             filtered.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (sortMode === 'downloads') {
-            filtered.sort((a, b) => b.downloads - a.downloads);
         } else if (sortMode === 'date') {
             const parseDate = (d) => {
                 if (!d || d === 'Unknown') return new Date(0);
@@ -1193,18 +1307,20 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.previewPkgDesc.textContent = pkg.description;
         
         let defaultTweet = "";
+        const pkgLang = pkg.language || "R and Python";
+        const tag = (pkg.language || "").toLowerCase() === "python" ? "#python #MDS" : "#rstats #MDS";
         if (currentLang === 'es') {
-            defaultTweet = `📦 Actualización de Paquete R: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDetalles: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 Actualización de Paquete (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDetalles: ${pkg.url}\n${tag}`;
         } else if (currentLang === 'fr') {
-            defaultTweet = `📦 Mise à jour du package R: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDétails: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 Mise à jour du package (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDétails: ${pkg.url}\n${tag}`;
         } else if (currentLang === 'ru') {
-            defaultTweet = `📦 Обновление R пакета: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nПодробнее: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 Обновление пакета (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nПодробнее: ${pkg.url}\n${tag}`;
         } else if (currentLang === 'zh') {
-            defaultTweet = `📦 R 程序包更新: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\n详情: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 程序包更新 (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\n详情: ${pkg.url}\n${tag}`;
         } else if (currentLang === 'ar') {
-            defaultTweet = `📦 تحديث حزمة R الجديدة: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nتفاصيل: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 تحديث الحزمة (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nتفاصيل: ${pkg.url}\n${tag}`;
         } else {
-            defaultTweet = `📦 R Package Update: "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDetails: ${pkg.url}\n#rstats #MDS`;
+            defaultTweet = `📦 Package Update (${pkgLang}): "${pkg.name}"\n\n${pkg.description.slice(0, 110)}...\n\nDetails: ${pkg.url}\n${tag}`;
         }
         
         elements.tweetTextarea.value = defaultTweet;
@@ -1423,25 +1539,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Chart.js Monthly Downloads Compare Chart
-    function updateDownloadsChart(packagesList) {
-        const canvas = document.getElementById('downloads-compare-chart');
-        if (!canvas) return;
+    // Chart.js Monthly Downloads Compare Chart for R & Python
+    function createSingleDownloadsChart(canvasId, packages, existingChartInstance, primaryColor, secondaryColor) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return null;
         const ctx = canvas.getContext('2d');
         
-        const sortedList = [...packagesList].sort((a, b) => b.downloads - a.downloads);
-        const labels = sortedList.map(p => p.name);
-        const downloadsData = sortedList.map(p => p.downloads);
-        
-        if (downloadsCompareChart) {
-            downloadsCompareChart.destroy();
+        if (existingChartInstance) {
+            existingChartInstance.destroy();
         }
-        
+
+        const sortedList = [...packages].sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+        const labels = sortedList.map(p => p.name);
+        const downloadsData = sortedList.map(p => p.downloads || 0);
+
         const gradient = ctx.createLinearGradient(0, 0, 450, 0);
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
-        gradient.addColorStop(1, 'rgba(139, 92, 246, 0.7)');
-        
-        downloadsCompareChart = new Chart(ctx, {
+        gradient.addColorStop(0, primaryColor);
+        gradient.addColorStop(1, secondaryColor);
+
+        return new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -1449,7 +1565,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     label: translations[currentLang].th_downloads || 'Downloads (mo)',
                     data: downloadsData,
                     backgroundColor: gradient,
-                    borderColor: 'rgba(56, 189, 248, 0.8)',
+                    borderColor: secondaryColor,
                     borderWidth: 1.5,
                     borderRadius: 6,
                     borderSkipped: false
@@ -1468,7 +1584,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         titleFont: { family: 'Outfit', weight: 'bold' },
                         bodyFont: { family: 'Inter' },
                         borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${(context.parsed.x || 0).toLocaleString()} ${translations[currentLang].th_downloads || 'downloads/mo'}`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -1478,7 +1599,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         },
                         ticks: {
                             color: '#94a3b8',
-                            font: { family: 'Fira Code', size: 9 }
+                            font: { family: 'Fira Code', size: 9 },
+                            callback: function(value) {
+                                if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                                if (value >= 1000) return (value / 1000).toFixed(0) + 'k';
+                                return value;
+                            }
                         }
                     },
                     y: {
@@ -1493,6 +1619,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+    }
+
+    function updateDownloadsChart(packagesList) {
+        const rPackages = packagesList.filter(p => (p.language || 'R').toUpperCase() === 'R');
+        const pyPackages = packagesList.filter(p => (p.language || '').toUpperCase() === 'PYTHON');
+
+        downloadsCompareChartR = createSingleDownloadsChart(
+            'downloads-compare-chart-r',
+            rPackages,
+            downloadsCompareChartR,
+            'rgba(56, 189, 248, 0.45)',
+            'rgba(139, 92, 246, 0.85)'
+        );
+
+        downloadsCompareChartPython = createSingleDownloadsChart(
+            'downloads-compare-chart-python',
+            pyPackages,
+            downloadsCompareChartPython,
+            'rgba(234, 179, 8, 0.45)',
+            'rgba(249, 115, 22, 0.85)'
+        );
     }
 
     // Tabs Switcher
@@ -1730,6 +1877,9 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.searchInput.addEventListener('input', filterAndRenderPackages);
     if (elements.sortSelect) {
         elements.sortSelect.addEventListener('change', filterAndRenderPackages);
+    }
+    if (elements.pkgLangFilter) {
+        elements.pkgLangFilter.addEventListener('change', filterAndRenderPackages);
     }
     
     // Modal Event Listeners

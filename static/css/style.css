@@ -1540,12 +1540,14 @@ dialog.glass-modal::backdrop {
    Sort Select Styles
    ========================================================================== */
 
-.sort-wrapper {
+.sort-wrapper,
+.pkg-lang-filter-wrapper {
     position: relative;
     display: inline-block;
 }
 
-.sort-select {
+.sort-select,
+.filter-select {
     appearance: none;
     -webkit-appearance: none;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
@@ -1560,13 +1562,15 @@ dialog.glass-modal::backdrop {
     outline: none;
 }
 
-[dir="rtl"] .sort-select {
+[dir="rtl"] .sort-select,
+[dir="rtl"] .filter-select {
     background-position: left 0.75rem center;
     padding-left: 2.2rem;
     padding-right: 1.25rem;
 }
 
-.sort-select:focus {
+.sort-select:focus,
+.filter-select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
 }
@@ -1922,6 +1926,147 @@ dialog.glass-modal::backdrop {
 [dir="rtl"] .tab-btn {
     border-radius: 12px 12px 0 0;
 }
+
+/* ==========================================================================
+   Programming Language Badge & PyPI Integration Card
+   ========================================================================== */
+
+.pkg-lang-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: var(--transition-smooth);
+}
+
+.pkg-lang-badge.r-lang {
+    background: rgba(37, 99, 235, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    color: #60a5fa;
+}
+
+.pkg-lang-badge.py-lang {
+    background: rgba(234, 179, 8, 0.15);
+    border: 1px solid rgba(234, 179, 8, 0.35);
+    color: #facc15;
+}
+
+/* PyPI Banner Card */
+.pypi-banner-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.25rem;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+    margin: 1.5rem 0 2rem 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pypi-banner-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #38bdf8 0%, #fbbf24 100%);
+}
+
+.pypi-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pypi-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.pypi-banner-text h4 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.pypi-banner-text p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.pypi-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    white-space: nowrap;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+}
+
+.pypi-search-btn:hover {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+}
+
+.pypi-lang-pill {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+}
+
+.external-icon {
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+}
+
+.pypi-search-btn:hover .external-icon {
+    transform: translate(2px, -2px);
+    opacity: 1;
+}
+
+/* RTL overrides for PyPI banner */
+[dir="rtl"] .pypi-banner-card::before {
+    left: auto;
+    right: 0;
+}
+
 
 
 

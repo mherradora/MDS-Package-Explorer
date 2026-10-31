@@ -18,12 +18,27 @@ CSV_PATH = os.path.join(WORKSPACE_DIR, "mds_packages.csv")
 CACHE_FILE = os.path.join(WORKSPACE_DIR, "cran_cache.json")
 TWEETS_FILE = os.path.join(WORKSPACE_DIR, "tweet_history.json")
 CRAN_URL = "https://cran.r-project.org/web/packages/available_packages_by_name.html"
+PYPI_CACHE_FILE = os.path.join(WORKSPACE_DIR, "pypi_cache.json")
 
-# List of the 16 identified MDS packages to strictly handle
+# List of the 16 identified MDS packages to strictly handle (R)
 MDS_PACKAGE_NAMES = [
     "asymmetry", "bayMDS", "bigmds", "bios2mds", "DistatisR", "fmds",
     "focusedMDS", "lmds", "MDSGUI", "MDSMap", "mdsOpt", "MDSPCAShiny",
     "pams", "semds", "smacof", "smacofx"
+]
+
+# List of identified Python packages related to Multidimensional Scaling / Manifold learning
+PYTHON_MDS_PACKAGE_NAMES = [
+    "scikit-learn",
+    "pymds",
+    "umap-learn",
+    "pacmap",
+    "trimap",
+    "openTSNE",
+    "hypertools",
+    "phate",
+    "scikit-dimension",
+    "pydiffmap"
 ]
 
 def load_csv_versions():
@@ -299,8 +314,99 @@ def run_global_sync():
     print("Sync complete. Results:", sync_results)
     return True, None
 
+def fetch_pypi_package_info(pkg_name):
+    """Fetches package metadata from the official PyPI JSON API and monthly downloads from PyPIStats."""
+    pypi_url = f"https://pypi.org/pypi/{pkg_name}/json"
+    req = urllib.request.Request(pypi_url, headers={'User-Agent': 'Mozilla/5.0'})
+    
+    version = "Unknown"
+    published = "Unknown"
+    license_val = "OSI Approved"
+    description = ""
+    project_url = f"https://pypi.org/project/{pkg_name}/"
+    depends_val = "Python"
+    downloads = 0
+    
+    try:
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            info = data.get("info", {})
+            version = info.get("version", "Unknown")
+            description = info.get("summary") or ""
+            
+            raw_lic = info.get("license") or "OSI Approved"
+            if len(raw_lic) > 25:
+                license_val = raw_lic.split('\n')[0][:25]
+            else:
+                license_val = raw_lic
+                
+            req_dist = info.get("requires_dist")
+            if req_dist and isinstance(req_dist, list) and len(req_dist) > 0:
+                # Extract first 2 dependencies
+                deps_short = [d.split(';')[0].split('(')[0].strip() for d in req_dist[:2]]
+                depends_val = ", ".join(deps_short)
+            elif info.get("requires_python"):
+                depends_val = f"Python {info.get('requires_python')}"
+                
+            releases = data.get("releases", {})
+            files = releases.get(version, [])
+            if files:
+                published = files[0].get("upload_time_iso_8601", "Unknown")[:10]
+    except Exception as e:
+        print(f"[{pkg_name}] Error fetching PyPI info: {e}")
+        
+    # Fetch monthly downloads from PyPIStats API
+    try:
+        stat_pkg = pkg_name.lower()
+        stat_url = f"https://pypistats.org/api/packages/{stat_pkg}/recent"
+        sreq = urllib.request.Request(stat_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(sreq, timeout=6) as sres:
+            sdata = json.loads(sres.read().decode('utf-8'))
+            downloads = sdata.get("data", {}).get("last_month", 0)
+    except Exception as e:
+        print(f"[{pkg_name}] Error fetching downloads from PyPIStats: {e}")
+        downloads = 0
+
+    return {
+        "id": pkg_name,
+        "name": pkg_name,
+        "description": description,
+        "url": project_url,
+        "version": version,
+        "published": published,
+        "downloads": downloads,
+        "license": license_val,
+        "depends": depends_val,
+        "language": "Python",
+        "downloaded": False,
+        "local_path": "",
+        "documents": []
+    }
+
+def sync_all_pypi_packages():
+    """Concurrently fetches metadata for all registered Python MDS packages and writes to cache."""
+    print(f"Syncing {len(PYTHON_MDS_PACKAGE_NAMES)} Python packages from PyPI...")
+    python_packages = []
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = {executor.submit(fetch_pypi_package_info, name): name for name in PYTHON_MDS_PACKAGE_NAMES}
+        for future in as_completed(futures):
+            try:
+                pkg_data = future.result()
+                python_packages.append(pkg_data)
+            except Exception as e:
+                print(f"Error resolving PyPI package: {e}")
+                
+    python_packages.sort(key=lambda x: x["name"].lower())
+    try:
+        with open(PYPI_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(python_packages, f, indent=4)
+        print(f"Saved {len(python_packages)} Python packages to {PYPI_CACHE_FILE}")
+    except Exception as e:
+        print(f"Error caching PyPI packages: {e}")
+    return python_packages
+
 def get_enhanced_packages_list():
-    """Loads packages details and appends version, downloads, and download status."""
+    """Loads package details for both R and Python MDS ecosystems."""
     if not os.path.exists(CACHE_FILE):
         run_global_sync()
         
@@ -313,6 +419,7 @@ def get_enhanced_packages_list():
     csv_data = load_csv_versions()
     
     enhanced = []
+    # 1. R packages from CRAN
     for pkg in packages:
         pkg_name = pkg["name"]
         pkg_info = csv_data.get(pkg_name, {})
@@ -344,11 +451,23 @@ def get_enhanced_packages_list():
             "downloads": downloads,
             "license": license_val,
             "depends": depends_val,
+            "language": "R",
             "downloaded": downloaded,
             "local_path": f"mds_packages/{pkg_name}",
             "documents": sorted(docs)
         })
         
+    # 2. Python packages from PyPI cache (or fetch if not cached)
+    if os.path.exists(PYPI_CACHE_FILE):
+        try:
+            with open(PYPI_CACHE_FILE, "r", encoding="utf-8") as f:
+                pypi_packages = json.load(f)
+        except Exception:
+            pypi_packages = sync_all_pypi_packages()
+    else:
+        pypi_packages = sync_all_pypi_packages()
+        
+    enhanced.extend(pypi_packages)
     return enhanced
 
 def load_tweet_history():
@@ -388,6 +507,7 @@ def refresh_packages():
     success, error = run_global_sync()
     if not success:
         return jsonify({"success": False, "error": error}), 500
+    sync_all_pypi_packages()
     packages = get_enhanced_packages_list()
     return jsonify({"success": True, "packages": packages})
 
@@ -542,4 +662,5 @@ cat(toJSON(res, auto_unbox = TRUE))
         return jsonify({"success": False, "error": f"Internal error during execution: {e}"}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host="0.0.0.0", port=port, debug=True)

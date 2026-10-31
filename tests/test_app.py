@@ -37,6 +37,8 @@ def test_get_packages(client):
     data = json.loads(response.data.decode('utf-8'))
     assert data['success'] is True
     assert isinstance(data['packages'], list)
+    if len(data['packages']) > 0:
+        assert data['packages'][0].get('language') == 'R'
 
 def test_tweets_endpoints(client):
     # Get current tweets

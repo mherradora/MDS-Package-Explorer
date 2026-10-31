@@ -32,8 +32,10 @@ ENV/
 
 # Local Database & Scraped Caches
 cran_cache.json
+pypi_cache.json
 tweet_history.json
 mds_packages.csv
+.Rhistory
 
 # Downloaded CRAN Package Documents (Tarballs, PDFs, Vignettes)
 mds_packages/

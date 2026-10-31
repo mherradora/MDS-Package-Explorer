@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAN MDS Explorer | Multidimensional Scaling R Packages</title>
+    <title>MDS Explorer | Multidimensional Scaling in R and Python</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
             <div class="brand">
                 <span class="badge" data-i18n="brand_badge">CRAN HUB</span>
                 <h1 data-i18n="app_title">MDS Package Explorer</h1>
-                <p class="subtitle" data-i18n="subtitle">Discover R packages for Multidimensional Scaling and related extensions</p>
+                <p class="subtitle" data-i18n="subtitle">Discover R and Python packages for Multidimensional Scaling and related extensions</p>
             </div>
             
             <div class="header-actions">
@@ -51,11 +51,20 @@
                     </div>
                 </div>
 
+                <!-- Language Filter Dropdown -->
+                <div class="pkg-lang-filter-wrapper">
+                    <select id="pkg-lang-filter" class="btn btn-secondary filter-select" title="Filter by Language / Filtrar por Lenguaje">
+                        <option value="all" data-i18n="filter_all_lang">All Languages (R & Python)</option>
+                        <option value="R" data-i18n="filter_r_only">R Packages</option>
+                        <option value="Python" data-i18n="filter_py_only">Python Packages</option>
+                    </select>
+                </div>
+
                 <!-- Sorting Dropdown -->
                 <div class="sort-wrapper">
                     <select id="sort-select" class="btn btn-secondary sort-select" title="Sort Packages / Ordenar Paquetes">
+                        <option value="downloads" data-i18n="sort_downloads" selected>Sort by Downloads</option>
                         <option value="name" data-i18n="sort_name">Sort by Name</option>
-                        <option value="downloads" data-i18n="sort_downloads">Sort by Downloads</option>
                         <option value="date" data-i18n="sort_date">Sort by Date</option>
                     </select>
                 </div>
@@ -105,14 +114,14 @@
                 <div class="readme-card card">
                     <div class="readme-header">
                         <span class="badge badge-outline" data-i18n="readme_badge">README.md</span>
-                        <h2 data-i18n="readme_title">R Multidimensional Scaling Ecosystem</h2>
+                        <h2 data-i18n="readme_title">R and Python Multidimensional Scaling Ecosystem</h2>
                     </div>
                     <div class="readme-body">
                         <p class="readme-intro" data-i18n="readme_intro">
-                            This application is an explorer for R packages on CRAN dedicated to Multidimensional Scaling (MDS). 
-                            At the core of the ecosystem is smacof, which implements the majorization algorithm for metric and non-metric MDS. 
-                            Other packages extend its functionality or apply it to specific domains (e.g. genetics, asymmetric distances, and optimization).
+                            This application is an explorer for packages in R and Python dedicated to Multidimensional Scaling (MDS). 
+                            At the core of the R ecosystem is smacof, which implements the majorization algorithm for metric and non-metric MDS, while Python provides manifold algorithms like scikit-learn MDS, UMAP, and openTSNE.
                         </p>
+
                         
                         <!-- Visual Organigram -->
                         <div class="organigram-container">
@@ -181,6 +190,7 @@
                                     <thead>
                                         <tr>
                                             <th data-i18n="th_package">Package</th>
+                                            <th data-i18n="th_lang">Language</th>
                                             <th data-i18n="th_version">Version</th>
                                             <th data-i18n="th_published">Published Date</th>
                                             <th data-i18n="th_downloads">Downloads</th>
@@ -200,10 +210,36 @@
                 <div class="card downloads-chart-card" style="margin-bottom: 2rem;">
                     <div class="card-header">
                         <span class="badge badge-outline" data-i18n="downloads_chart_badge">POPULARITY ANALYSIS</span>
-                        <h2 data-i18n="downloads_chart_title">Monthly Downloads Comparison (CRANlogs)</h2>
+                        <h2 data-i18n="downloads_chart_title">Monthly Downloads Comparison (CRANlogs & PyPIStats)</h2>
                     </div>
-                    <div class="card-body" style="padding: 1.5rem; height: 320px; position: relative;">
-                        <canvas id="downloads-compare-chart"></canvas>
+                    <div class="card-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;">
+                        <!-- R Packages Chart -->
+                        <div class="chart-subcontainer">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); font-size: 0.75rem;">R</span>
+                                    <span data-i18n="chart_r_title">R Packages (CRAN)</span>
+                                </h3>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="chart_r_source">Source: CRANlogs API</span>
+                            </div>
+                            <div style="height: 280px; position: relative;">
+                                <canvas id="downloads-compare-chart-r"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Python Packages Chart -->
+                        <div class="chart-subcontainer" style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span class="badge" style="background: rgba(234, 179, 8, 0.2); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.4); font-size: 0.75rem;">Python</span>
+                                    <span data-i18n="chart_python_title">Python Packages (PyPI)</span>
+                                </h3>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="chart_python_source">Source: PyPIStats API</span>
+                            </div>
+                            <div style="height: 280px; position: relative;">
+                                <canvas id="downloads-compare-chart-python"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -397,8 +433,8 @@
                     </div>
                     <div class="composer-main">
                         <div class="user-info">
-                            <span class="user-display" data-i18n="user_display">R Stats MDS</span>
-                            <span class="user-handle" data-i18n="user_handle">@rstats_mds</span>
+                            <span class="user-display" data-i18n="user_display">MDS Stats (R & Python)</span>
+                            <span class="user-handle" data-i18n="user_handle">@mds_stats</span>
                         </div>
                         <textarea id="tweet-textarea" placeholder="What's happening in the MDS world?" maxlength="280"></textarea>
                         

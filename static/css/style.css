@@ -81,9 +81,8 @@ body {
 /* Header Styles */
 .app-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -92,7 +91,8 @@ body {
 .brand {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .badge {
@@ -136,6 +136,8 @@ body {
     display: flex;
     gap: 1rem;
     align-items: center;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
 }
 
 .search-wrapper {
@@ -244,19 +246,112 @@ body {
     to { transform: rotate(360deg); }
 }
 
-/* Dashboard Layout */
+/* Dashboard Layout with Left Sticky Index Navigation */
 .app-layout {
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 2.5rem;
+    grid-template-columns: 260px 1fr;
+    gap: 2.25rem;
     align-items: start;
+    width: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     .app-layout {
         grid-template-columns: 1fr;
     }
+    
+    .global-sections-sidebar {
+        position: static !important;
+        margin-bottom: 1.5rem;
+    }
 }
+
+/* Global Left Sidebar Index Navigation */
+.global-sections-sidebar {
+    position: sticky;
+    top: 2rem;
+    z-index: 10;
+}
+
+.global-index-card {
+    background: rgba(10, 15, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.global-index-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--primary);
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 0.85rem;
+}
+
+.global-index-header .icon {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.global-index-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.global-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.global-nav-link:hover {
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.25);
+    color: var(--text-main);
+    transform: translateX(3px);
+}
+
+.global-nav-link.active {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: var(--primary);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+.nav-icon-badge {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.nav-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[dir="rtl"] .global-nav-link:hover {
+    transform: translateX(-3px);
+}
+
 
 /* Packages Grid & Cards */
 .packages-section {
@@ -1088,11 +1183,19 @@ dialog.glass-modal::backdrop {
 
 .readme-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.25rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding-bottom: 1rem;
+}
+
+.header-title-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .readme-header h2 {
@@ -2066,6 +2169,417 @@ dialog.glass-modal::backdrop {
     left: auto;
     right: 0;
 }
+
+/* ==========================================================================
+   Collapsible Section Headers & Toggle Buttons
+   ========================================================================== */
+
+.section-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+.section-toggle-btn:hover {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: var(--primary);
+    transform: scale(1.08);
+}
+
+.section-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.section-toggle-btn .toggle-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-toggle-btn.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+[dir="rtl"] .section-toggle-btn.collapsed .toggle-icon {
+    transform: rotate(90deg);
+}
+
+.collapsible-content {
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.collapsible-content.is-collapsed {
+    display: none !important;
+}
+
+/* ==========================================================================
+   Cross-Language Interoperability Section (R in Python & Python in R)
+   ========================================================================== */
+
+.interop-card {
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.interop-intro {
+    color: var(--text-muted);
+    font-size: 0.96rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.interop-snippet-card {
+    background: rgba(10, 15, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.interop-snippet-card:hover {
+    border-color: rgba(56, 189, 248, 0.25);
+    background: rgba(15, 23, 42, 0.75);
+}
+
+.snippet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 0.75rem;
+}
+
+.snippet-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.snippet-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.snippet-tag.tag-python {
+    background: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.snippet-tag.tag-r {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.snippet-arrow {
+    color: var(--text-dimmed);
+    font-size: 0.9rem;
+}
+
+.snippet-lib-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dimmed);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.snippet-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.code-block-wrapper {
+    background: #040814;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.code-snippet {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.code-comment {
+    color: #64748b;
+    font-style: italic;
+}
+
+.code-keyword {
+    color: #c084fc;
+    font-weight: 600;
+}
+
+.code-string {
+    color: #34d399;
+}
+
+.code-number {
+    color: #fb923c;
+}
+
+/* ==========================================================================
+   What is Multidimensional Scaling & Books Sections
+   ========================================================================== */
+
+.what-is-mds-card,
+.mds-books-card {
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mds-concept-p,
+.books-intro {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.mds-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.pillar-card {
+    background: rgba(10, 15, 30, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.pillar-card:hover {
+    border-color: rgba(56, 189, 248, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pillar-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
+}
+
+.pillar-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    font-family: var(--font-display);
+}
+
+.pillar-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.mds-formula-box {
+    background: linear-gradient(135deg, rgba(6, 11, 25, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(56, 189, 248, 0.05);
+}
+
+.formula-label {
+    align-self: flex-start;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.82rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.formula-display {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    font-size: 1.25rem;
+    color: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formula-display .katex {
+    font-size: 1.35em;
+    color: #f1f5f9;
+}
+
+.formula-display .katex-display {
+    margin: 0.25rem 0;
+}
+
+/* Books Grid */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.book-item-card {
+    background: rgba(10, 15, 30, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.book-item-card:hover {
+    border-color: rgba(139, 92, 246, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.book-cover-badge {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    background: rgba(139, 92, 246, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.book-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.book-title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-family: var(--font-display);
+    color: var(--text-main);
+    line-height: 1.4;
+}
+
+.book-authors {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--primary);
+}
+
+.book-meta {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--text-dimmed);
+}
+
+.book-desc {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+/* Card Top bar with Buy Button */
+.book-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.btn-buy {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #e0f2fe;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition-bounce);
+}
+
+.btn-buy:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    transform: translateY(-2px);
+}
+
+.book-links-row {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.book-store-link {
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    color: var(--text-dimmed);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.book-store-link:hover {
+    color: var(--primary);
+}
+
+[dir="rtl"] .index-nav-item:hover {
+    transform: translateX(-3px);
+}
+
+
+
+
 
 
 

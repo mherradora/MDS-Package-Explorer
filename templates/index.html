@@ -13,6 +13,11 @@
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="/static/css/style.css">
     
+    <!-- KaTeX CSS and JS for Mathematical Formula Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" defer></script>
+    
     <!-- Chart.js and Vis.js Network CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js" defer></script>
@@ -30,61 +35,61 @@
                 <span class="badge" data-i18n="brand_badge">CRAN HUB</span>
                 <h1 data-i18n="app_title">MDS Package Explorer</h1>
                 <p class="subtitle" data-i18n="subtitle">Discover R and Python packages for Multidimensional Scaling and related extensions</p>
-            </div>
-            
-            <div class="header-actions">
-                <!-- Language Selector Dropdown -->
-                <div class="lang-selector-wrapper">
-                    <button id="lang-btn" class="btn btn-secondary" title="Change Language / Cambiar Idioma">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-7a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span id="current-lang-name">English</span>
-                    </button>
-                    <div id="lang-dropdown" class="lang-dropdown-menu" style="display: none;">
-                        <button class="lang-opt" data-lang="en">English</button>
-                        <button class="lang-opt" data-lang="fr">Français</button>
-                        <button class="lang-opt" data-lang="es">Español</button>
-                        <button class="lang-opt" data-lang="ru">Русский</button>
-                        <button class="lang-opt" data-lang="zh">简体中文</button>
-                        <button class="lang-opt" data-lang="ar">العربية</button>
-                    </div>
-                </div>
-
-                <!-- Language Filter Dropdown -->
-                <div class="pkg-lang-filter-wrapper">
-                    <select id="pkg-lang-filter" class="btn btn-secondary filter-select" title="Filter by Language / Filtrar por Lenguaje">
-                        <option value="all" data-i18n="filter_all_lang">All Languages (R & Python)</option>
-                        <option value="R" data-i18n="filter_r_only">R Packages</option>
-                        <option value="Python" data-i18n="filter_py_only">Python Packages</option>
-                    </select>
-                </div>
-
-                <!-- Sorting Dropdown -->
-                <div class="sort-wrapper">
-                    <select id="sort-select" class="btn btn-secondary sort-select" title="Sort Packages / Ordenar Paquetes">
-                        <option value="downloads" data-i18n="sort_downloads" selected>Sort by Downloads</option>
-                        <option value="name" data-i18n="sort_name">Sort by Name</option>
-                        <option value="date" data-i18n="sort_date">Sort by Date</option>
-                    </select>
-                </div>
-
-                <!-- Search Input -->
-                <div class="search-wrapper">
-                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Search packages, keywords..." autocomplete="off">
-                </div>
                 
-                <!-- Sync Button -->
-                <button id="refresh-btn" class="btn btn-primary" title="Refresh packages list">
-                    <svg class="icon spinner-icon" id="refresh-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="btn-text" data-i18n="sync_cran">Sync CRAN</span>
-                </button>
+                <div class="header-actions">
+                    <!-- Language Selector Dropdown -->
+                    <div class="lang-selector-wrapper">
+                        <button id="lang-btn" class="btn btn-secondary" title="Change Language / Cambiar Idioma">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m-4-7a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span id="current-lang-name">English</span>
+                        </button>
+                        <div id="lang-dropdown" class="lang-dropdown-menu" style="display: none;">
+                            <button class="lang-opt" data-lang="en">English</button>
+                            <button class="lang-opt" data-lang="fr">Français</button>
+                            <button class="lang-opt" data-lang="es">Español</button>
+                            <button class="lang-opt" data-lang="ru">Русский</button>
+                            <button class="lang-opt" data-lang="zh">简体中文</button>
+                            <button class="lang-opt" data-lang="ar">العربية</button>
+                        </div>
+                    </div>
+
+                    <!-- Language Filter Dropdown -->
+                    <div class="pkg-lang-filter-wrapper">
+                        <select id="pkg-lang-filter" class="btn btn-secondary filter-select" title="Filter by Language / Filtrar por Lenguaje">
+                            <option value="all" data-i18n="filter_all_lang">All Languages (R & Python)</option>
+                            <option value="R" data-i18n="filter_r_only">R Packages</option>
+                            <option value="Python" data-i18n="filter_py_only">Python Packages</option>
+                        </select>
+                    </div>
+
+                    <!-- Sorting Dropdown -->
+                    <div class="sort-wrapper">
+                        <select id="sort-select" class="btn btn-secondary sort-select" title="Sort Packages / Ordenar Paquetes">
+                            <option value="downloads" data-i18n="sort_downloads" selected>Sort by Downloads</option>
+                            <option value="name" data-i18n="sort_name">Sort by Name</option>
+                            <option value="date" data-i18n="sort_date">Sort by Date</option>
+                        </select>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="search-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Search packages, keywords..." autocomplete="off">
+                    </div>
+                    
+                    <!-- Sync Button -->
+                    <button id="refresh-btn" class="btn btn-primary" title="Refresh packages list">
+                        <svg class="icon spinner-icon" id="refresh-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="btn-text" data-i18n="sync_cran">Sync CRAN</span>
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -106,17 +111,239 @@
 
         <!-- Ecosystem Explorer Tab Content -->
         <div id="tab-content-explorer" class="tab-content active">
-            <!-- Main Layout -->
+            <!-- Main Layout with Global Left Index -->
             <main class="app-layout">
-            <!-- Packages Section -->
-            <section class="packages-section">
-                <!-- README Ecosystem Summary -->
-                <div class="readme-card card">
-                    <div class="readme-header">
-                        <span class="badge badge-outline" data-i18n="readme_badge">README.md</span>
-                        <h2 data-i18n="readme_title">R and Python Multidimensional Scaling Ecosystem</h2>
+                <!-- Global Left Navigation Index of all Explorer Sections -->
+                <aside class="global-sections-sidebar">
+                    <div class="global-index-card">
+                        <div class="global-index-header">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                            </svg>
+                            <span data-i18n="global_index_title">Page Navigation</span>
+                        </div>
+                        <nav class="global-index-nav">
+                            <a href="#sec-what-is-mds" class="global-nav-link" data-target-sec="#sec-what-is-mds">
+                                <span class="nav-icon-badge">📐</span>
+                                <span class="nav-text" data-i18n="nav_what_is_mds">What is MDS?</span>
+                            </a>
+                            <a href="#sec-books" class="global-nav-link" data-target-sec="#sec-books">
+                                <span class="nav-icon-badge">📚</span>
+                                <span class="nav-text" data-i18n="nav_books">Books &amp; Literature</span>
+                            </a>
+                            <a href="#sec-ecosystem" class="global-nav-link" data-target-sec="#sec-ecosystem">
+                                <span class="nav-icon-badge">🌐</span>
+                                <span class="nav-text" data-i18n="nav_ecosystem">Ecosystem Overview</span>
+                            </a>
+                            <a href="#sec-popularity" class="global-nav-link" data-target-sec="#sec-popularity">
+                                <span class="nav-icon-badge">📊</span>
+                                <span class="nav-text" data-i18n="nav_popularity">Popularity Analysis</span>
+                            </a>
+                            <a href="#sec-interop" class="global-nav-link" data-target-sec="#sec-interop">
+                                <span class="nav-icon-badge">🔄</span>
+                                <span class="nav-text" data-i18n="nav_interop">R ⇄ Python Guide</span>
+                            </a>
+                            <a href="#sec-packages" class="global-nav-link" data-target-sec="#sec-packages">
+                                <span class="nav-icon-badge">📦</span>
+                                <span class="nav-text" data-i18n="nav_packages">MDS Packages Grid</span>
+                            </a>
+                        </nav>
                     </div>
-                    <div class="readme-body">
+                </aside>
+
+                <!-- Packages Section -->
+                <section class="packages-section">
+                    <!-- What is Multidimensional Scaling (MDS)? -->
+                    <div class="card what-is-mds-card" id="sec-what-is-mds" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="mds_concept_badge">THEORY & FOUNDATIONS</span>
+                            <h2 data-i18n="mds_concept_title">What is Multidimensional Scaling?</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#what-is-mds-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body collapsible-content" id="what-is-mds-collapse" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <p class="mds-concept-p" data-i18n="mds_concept_p1">
+                            <strong>Multidimensional Scaling (MDS)</strong> is a family of multivariate statistical techniques used to visualize similarities or dissimilarities (proximities) among a set of objects. Given a table or matrix of pair-wise distances between items, MDS positions each item in a low-dimensional target space (usually 2D or 3D) such that the resulting Euclidean distances between items reflect the empirical dissimilarities as closely as possible.
+                        </p>
+                        
+                        <div class="mds-pillars-grid">
+                            <div class="pillar-card">
+                                <div class="pillar-icon">📏</div>
+                                <h3 data-i18n="mds_pillar_metric_title">Metric MDS</h3>
+                                <p data-i18n="mds_pillar_metric_desc">
+                                    Assumes distances have a quantitative linear or interval relationship ($\hat{d}_{ij} = a + b \cdot \delta_{ij}$). It aims to preserve true numerical distance values directly (Classical scaling / Principal Coordinate Analysis, PCoA).
+                                </p>
+                            </div>
+                            <div class="pillar-card">
+                                <div class="pillar-icon">📈</div>
+                                <h3 data-i18n="mds_pillar_nonmetric_title">Non-Metric MDS</h3>
+                                <p data-i18n="mds_pillar_nonmetric_desc">
+                                    Assumes only rank-order or monotonic relationships ($\delta_{ij} < \delta_{kl} \implies d_{ij} \le d_{kl}$). It uses monotonic regression (Shepard diagrams) to map ordinal proximity judgments into geometric space.
+                                </p>
+                            </div>
+                            <div class="pillar-card">
+                                <div class="pillar-icon">⚙️</div>
+                                <h3 data-i18n="mds_pillar_smacof_title">Majorization (SMACOF)</h3>
+                                <p data-i18n="mds_pillar_smacof_desc">
+                                    <strong>S</strong>caling by <strong>MA</strong>jorizing a <strong>CO</strong>mplicated <strong>F</strong>unction iteratively minimizes <em>Stress</em> ($\sigma(X)$) through auxiliary parabolic functions, providing guaranteed convergence without step-size tuning.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mds-formula-box">
+                            <span class="formula-label" data-i18n="mds_formula_label">Normalized Stress Formula (Stress-1):</span>
+                            <div class="formula-display" id="stress-formula">
+                                $$\sigma_1(\mathbf{X}) = \sqrt{ \frac{\sum_{i < j} w_{ij} \big(d_{ij}(\mathbf{X}) - \hat{d}_{ij}\big)^2}{\sum_{i < j} w_{ij} d_{ij}^2(\mathbf{X})} }$$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Essential MDS Literature & Books Section -->
+                <div class="card mds-books-card" id="sec-books" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="books_badge">RECOMMENDED READING</span>
+                            <h2 data-i18n="books_title">Books on Multidimensional Scaling</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#mds-books-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body collapsible-content" id="mds-books-collapse" style="padding: 1.5rem;">
+                        <p class="books-intro" style="margin-bottom: 1.5rem;" data-i18n="books_intro">
+                            These canonical and contemporary reference textbooks provide foundational theoretical grounding, majorization mathematics, and practical computation using R and Python:
+                        </p>
+                        
+                        <div class="books-grid">
+                            <!-- Book 1 -->
+                            <div class="book-item-card" id="book-borg-groenen">
+                                <div class="book-card-top">
+                                    <div class="book-cover-badge">Springer</div>
+                                    <a href="https://link.springer.com/book/10.1007/0-387-28981-X" target="_blank" rel="noopener noreferrer" class="btn btn-buy" title="Buy from Springer">
+                                        <span data-i18n="btn_buy_springer">Buy on Springer</span>
+                                        <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="book-details">
+                                    <h3 class="book-title">Modern Multidimensional Scaling: Theory and Applications</h3>
+                                    <div class="book-authors">Ingwer Borg &amp; Patrick J.F. Groenen</div>
+                                    <div class="book-meta">Springer Series in Statistics (2nd Edition, 2005) &bull; ISBN: 978-0387251509</div>
+                                    <p class="book-desc" data-i18n="book_borg_desc">
+                                        The definitive, authoritative reference in MDS. Covers metric, non-metric, SMACOF majorization theory, asymmetric proximity models, unfolding, and constraints with deep mathematical rigour.
+                                    </p>
+                                </div>
+                                <div class="book-links-row">
+                                    <a href="https://www.amazon.com/dp/0387251502" target="_blank" rel="noopener noreferrer" class="book-store-link">
+                                        Amazon Store &rarr;
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Book 2 -->
+                            <div class="book-item-card" id="book-cox-cox">
+                                <div class="book-card-top">
+                                    <div class="book-cover-badge">Chapman &amp; Hall / CRC</div>
+                                    <a href="https://www.routledge.com/Multidimensional-Scaling/Cox-Cox/p/book/9781584880943" target="_blank" rel="noopener noreferrer" class="btn btn-buy" title="Buy from Routledge / CRC Press">
+                                        <span data-i18n="btn_buy_routledge">Buy on Routledge</span>
+                                        <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="book-details">
+                                    <h3 class="book-title">Multidimensional Scaling</h3>
+                                    <div class="book-authors">Trevor F. Cox &amp; Michael A.A. Cox</div>
+                                    <div class="book-meta">Monographs on Statistics and Applied Probability (2nd Edition, 2000) &bull; ISBN: 978-1584880943</div>
+                                    <p class="book-desc" data-i18n="book_cox_desc">
+                                        Comprehensive exposition of Classical Scaling, Shepard-Kruskal nonmetric models, Procrustes analysis, individual differences models (INDSCAL), and distance geometry.
+                                    </p>
+                                </div>
+                                <div class="book-links-row">
+                                    <a href="https://www.amazon.com/dp/1584880945" target="_blank" rel="noopener noreferrer" class="book-store-link">
+                                        Amazon Store &rarr;
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Book 3 -->
+                            <div class="book-item-card" id="book-borg-mair">
+                                <div class="book-card-top">
+                                    <div class="book-cover-badge">Springer</div>
+                                    <a href="https://link.springer.com/book/10.1007/978-3-662-56170-6" target="_blank" rel="noopener noreferrer" class="btn btn-buy" title="Buy from Springer">
+                                        <span data-i18n="btn_buy_springer">Buy on Springer</span>
+                                        <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="book-details">
+                                    <h3 class="book-title">Applied Multidimensional Scaling</h3>
+                                    <div class="book-authors">Ingwer Borg, Patrick J.F. Groenen, &amp; Patrick Mair</div>
+                                    <div class="book-meta">SpringerBriefs in Statistics (2018) &bull; ISBN: 978-3662561690</div>
+                                    <p class="book-desc" data-i18n="book_mair_desc">
+                                        A practical, hands-on guide centered on modern R packages (especially <code>smacof</code> and <code>smacofx</code>). Ideal for applied data analysts and psychometrics practitioners.
+                                    </p>
+                                </div>
+                                <div class="book-links-row">
+                                    <a href="https://www.amazon.com/dp/3662561690" target="_blank" rel="noopener noreferrer" class="book-store-link">
+                                        Amazon Store &rarr;
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Book 4 -->
+                            <div class="book-item-card" id="book-kruskal-wish">
+                                <div class="book-card-top">
+                                    <div class="book-cover-badge">Sage</div>
+                                    <a href="https://us.sagepub.com/en-us/nam/multidimensional-scaling/book2004" target="_blank" rel="noopener noreferrer" class="btn btn-buy" title="Buy from Sage Publishing">
+                                        <span data-i18n="btn_buy_sage">Buy on SAGE</span>
+                                        <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="book-details">
+                                    <h3 class="book-title">Multidimensional Scaling</h3>
+                                    <div class="book-authors">Joseph B. Kruskal &amp; Myron Wish</div>
+                                    <div class="book-meta">Quantitative Applications in the Social Sciences (1978) &bull; ISBN: 978-0803909403</div>
+                                    <p class="book-desc" data-i18n="book_kruskal_desc">
+                                        The historical classic by the pioneer of nonmetric MDS. Offers unmatched intuitive conceptual explanations of Stress, monotonicity, dimensional interpretation, and perceptual mapping.
+                                    </p>
+                                </div>
+                                <div class="book-links-row">
+                                    <a href="https://www.amazon.com/dp/0803909403" target="_blank" rel="noopener noreferrer" class="book-store-link">
+                                        Amazon Store &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- README Ecosystem Summary -->
+                <div class="readme-card card" id="sec-ecosystem">
+                    <div class="readme-header">
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="readme_badge">README.md</span>
+                            <h2 data-i18n="readme_title">R and Python Multidimensional Scaling Ecosystem</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#readme-body-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="readme-body collapsible-content" id="readme-body-collapse">
                         <p class="readme-intro" data-i18n="readme_intro">
                             This application is an explorer for packages in R and Python dedicated to Multidimensional Scaling (MDS). 
                             At the core of the R ecosystem is smacof, which implements the majorization algorithm for metric and non-metric MDS, while Python provides manifold algorithms like scikit-learn MDS, UMAP, and openTSNE.
@@ -207,12 +434,19 @@
                 </div>
 
                 <!-- Downloads Compare Chart Card -->
-                <div class="card downloads-chart-card" style="margin-bottom: 2rem;">
+                <div class="card downloads-chart-card" id="sec-popularity" style="margin-bottom: 2rem;">
                     <div class="card-header">
-                        <span class="badge badge-outline" data-i18n="downloads_chart_badge">POPULARITY ANALYSIS</span>
-                        <h2 data-i18n="downloads_chart_title">Monthly Downloads Comparison (CRANlogs & PyPIStats)</h2>
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="downloads_chart_badge">POPULARITY ANALYSIS</span>
+                            <h2 data-i18n="downloads_chart_title">Monthly Downloads Comparison (CRANlogs & PyPIStats)</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#downloads-chart-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="card-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="card-body collapsible-content" id="downloads-chart-collapse" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 2rem;">
                         <!-- R Packages Chart -->
                         <div class="chart-subcontainer">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
@@ -243,49 +477,157 @@
                     </div>
                 </div>
 
-                <div class="section-header">
-                    <h2><span data-i18n="packages_header_text">MDS Packages</span> <span class="counter" id="pkg-count">0</span></h2>
-                    <div class="stats-badge" id="last-sync-badge">Last Synced: Just now</div>
-                </div>
-                
-                <!-- Skeleton Loader -->
-                <div class="packages-grid skeleton-grid" id="skeleton-loader">
-                    <div class="card skeleton-card"></div>
-                    <div class="card skeleton-card"></div>
-                    <div class="card skeleton-card"></div>
-                    <div class="card skeleton-card"></div>
-                    <div class="card skeleton-card"></div>
-                    <div class="card skeleton-card"></div>
-                </div>
-                
-                <!-- Real Packages Grid -->
-                <div class="packages-grid" id="packages-grid" style="display: none;">
-                    <!-- Dynamically populated -->
-                </div>
-                
-                <!-- Empty State -->
-                <div class="empty-state" id="empty-state" style="display: none;">
-                    <div class="empty-icon">📂</div>
-                    <h3 data-i18n="empty_title">No packages found</h3>
-                    <p data-i18n="empty_desc">Try refining your search keyword or click Sync CRAN to fetch the latest details.</p>
-                </div>
-            </section>
-            
-            <!-- Tweet Timeline Section -->
-            <aside class="timeline-section">
-                <div class="section-header">
-                    <h2 data-i18n="twitter_title">Mock Twitter Feed</h2>
-                    <span class="badge badge-outline" data-i18n="twitter_live">Live Broadcast</span>
-                </div>
-                
-                <div class="tweets-timeline" id="tweets-timeline">
-                    <!-- Dynamically populated -->
-                    <div class="timeline-empty">
-                        <div class="bird-icon">🐦</div>
-                        <p data-i18n="twitter_empty">No tweets posted yet. Click the "Tweet" button on any package card to share the updates!</p>
+                <!-- Interoperability Guide: Running R in Python & Python in R -->
+                <div class="card interop-card" id="sec-interop" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="interop_badge">CROSS-LANGUAGE INTEROPERABILITY</span>
+                            <h2 data-i18n="interop_title">Running R in Python & Python in R (smacof ⇄ scikit-learn)</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#interop-guide-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="card-body collapsible-content" id="interop-guide-collapse" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.75rem;">
+                        <p class="interop-intro" data-i18n="interop_intro">
+                            Modern data science workflows frequently combine R's specialized statistical ecosystems with Python's machine learning libraries. Below are reproducible patterns to execute R's <code>smacof</code> package inside Python via <code>rpy2</code>, and Python's <code>scikit-learn</code> MDS inside R via <code>reticulate</code>.
+                        </p>
+
+                        <!-- Guide Column 1: R code in Python -->
+                        <div class="interop-snippet-card">
+                            <div class="snippet-header">
+                                <div class="snippet-title-wrapper">
+                                    <span class="snippet-tag tag-python">Python</span>
+                                    <span class="snippet-arrow">➜</span>
+                                    <span class="snippet-tag tag-r">R</span>
+                                    <strong data-i18n="interop_py_to_r_title">Run R smacof inside Python with rpy2</strong>
+                                </div>
+                                <span class="snippet-lib-badge">Library: rpy2</span>
+                            </div>
+                            <div class="snippet-desc" data-i18n="interop_py_to_r_desc">
+                                Use <code>rpy2.robjects</code> and <code>numpy2ri</code> to seamlessly convert NumPy arrays or pandas DataFrames into R distance objects and compute MDS via <code>smacof::mds()</code>.
+                            </div>
+                            <div class="code-block-wrapper">
+                                <pre class="code-snippet"><code><span class="code-comment"># 1. Install prerequisite: pip install rpy2 numpy</span>
+<span class="code-keyword">import</span> numpy <span class="code-keyword">as</span> np
+<span class="code-keyword">from</span> rpy2.robjects <span class="code-keyword">import</span> r, default_converter
+<span class="code-keyword">from</span> rpy2.robjects.packages <span class="code-keyword">import</span> importr
+<span class="code-keyword">from</span> rpy2.robjects <span class="code-keyword">import</span> numpy2ri
+
+<span class="code-comment"># Activate automatic conversion between NumPy and R arrays</span>
+numpy2ri.activate()
+
+<span class="code-comment"># Import the smacof package from R CRAN</span>
+smacof = importr(<span class="code-string">'smacof'</span>)
+
+<span class="code-comment"># Create a sample symmetric distance matrix in Python</span>
+dist_matrix = np.array([
+    [<span class="code-number">0.0</span>, <span class="code-number">2.1</span>, <span class="code-number">3.5</span>, <span class="code-number">4.2</span>],
+    [<span class="code-number">2.1</span>, <span class="code-number">0.0</span>, <span class="code-number">2.8</span>, <span class="code-number">3.9</span>],
+    [<span class="code-number">3.5</span>, <span class="code-number">2.8</span>, <span class="code-number">0.0</span>, <span class="code-number">1.9</span>],
+    [<span class="code-number">4.2</span>, <span class="code-number">3.9</span>, <span class="code-number">1.9</span>, <span class="code-number">0.0</span>]
+])
+
+<span class="code-comment"># Execute Metric MDS using smacof's majorization algorithm</span>
+fit = smacof.mds(delta=dist_matrix, ndim=<span class="code-number">2</span>, type=<span class="code-string">"ratio"</span>)
+
+<span class="code-comment"># Extract Stress-1 score and coordinates back into Python NumPy</span>
+stress_val = fit.rx2(<span class="code-string">'stress'</span>)[<span class="code-number">0</span>]
+coords = np.array(fit.rx2(<span class="code-string">'conf'</span>))
+
+print(<span class="code-string">f"smacof Stress-1: {stress_val:.5f}"</span>)
+print(<span class="code-string">"Coordinates shape:"</span>, coords.shape)
+print(<span class="code-string">"2D Embedding Coordinates:\n"</span>, coords)</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Guide Column 2: Python code in R -->
+                        <div class="interop-snippet-card">
+                            <div class="snippet-header">
+                                <div class="snippet-title-wrapper">
+                                    <span class="snippet-tag tag-r">R</span>
+                                    <span class="snippet-arrow">➜</span>
+                                    <span class="snippet-tag tag-python">Python</span>
+                                    <strong data-i18n="interop_r_to_py_title">Run Python scikit-learn MDS inside R with reticulate</strong>
+                                </div>
+                                <span class="snippet-lib-badge">Package: reticulate</span>
+                            </div>
+                            <div class="snippet-desc" data-i18n="interop_r_to_py_desc">
+                                Use <code>reticulate</code> to import Python modules like <code>sklearn.manifold</code> directly into R, pass R matrices, and retrieve fitted MDS coordinates natively.
+                            </div>
+                            <div class="code-block-wrapper">
+                                <pre class="code-snippet"><code><span class="code-comment"># 1. Install prerequisites in R and system:</span>
+<span class="code-comment">#    install.packages("reticulate")</span>
+<span class="code-comment">#    reticulate::py_install("scikit-learn")</span>
+
+<span class="code-keyword">library</span>(reticulate)
+
+<span class="code-comment"># Import the scikit-learn manifold module from Python</span>
+manifold &lt;- import(<span class="code-string">"sklearn.manifold"</span>)
+np       &lt;- import(<span class="code-string">"numpy"</span>)
+
+<span class="code-comment"># Generate or load a distance matrix in R (e.g. eurodist or custom matrix)</span>
+data(eurodist)
+dist_mat &lt;- as.matrix(eurodist)[<span class="code-number">1</span>:<span class="code-number">5</span>, <span class="code-number">1</span>:<span class="code-number">5</span>]
+
+<span class="code-comment"># Instantiate scikit-learn's MDS class with precomputed dissimilarity</span>
+mds_model &lt;- manifold$MDS(
+  n_components  = as.integer(<span class="code-number">2</span>),
+  dissimilarity = <span class="code-string">"precomputed"</span>,
+  random_state  = as.integer(<span class="code-number">42</span>),
+  normalized_stress = <span class="code-string">"auto"</span>
+)
+
+<span class="code-comment"># Fit model and project coordinates directly from R</span>
+coords &lt;- mds_model$fit_transform(dist_mat)
+stress &lt;- mds_model$stress_
+
+cat(sprintf(<span class="code-string">"scikit-learn MDS Stress: %.4f\n"</span>, stress))
+print(<span class="code-string">"Embedded 2D Coordinates:"</span>)
+print(coords)</code></pre>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </aside>
+
+                <div class="section-header" id="sec-packages">
+                    <div class="header-title-group" style="display: flex; align-items: center; gap: 1rem;">
+                        <h2><span data-i18n="packages_header_text">MDS Packages</span> <span class="counter" id="pkg-count">0</span></h2>
+                        <div class="stats-badge" id="last-sync-badge">Last Synced: Just now</div>
+                    </div>
+                    <button class="section-toggle-btn" data-target="#packages-content-collapse" aria-expanded="true" title="Toggle section">
+                        <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="collapsible-content" id="packages-content-collapse">
+                    <!-- Skeleton Loader -->
+                    <div class="packages-grid skeleton-grid" id="skeleton-loader">
+                        <div class="card skeleton-card"></div>
+                        <div class="card skeleton-card"></div>
+                        <div class="card skeleton-card"></div>
+                        <div class="card skeleton-card"></div>
+                        <div class="card skeleton-card"></div>
+                        <div class="card skeleton-card"></div>
+                    </div>
+                    
+                    <!-- Real Packages Grid -->
+                    <div class="packages-grid" id="packages-grid" style="display: none;">
+                        <!-- Dynamically populated -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="empty-state" id="empty-state" style="display: none;">
+                        <div class="empty-icon">📂</div>
+                        <h3 data-i18n="empty_title">No packages found</h3>
+                        <p data-i18n="empty_desc">Try refining your search keyword or click Sync CRAN to fetch the latest details.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div> <!-- End of tab-content-explorer -->
 
@@ -296,10 +638,17 @@
             <section class="lab-sidebar">
                 <div class="card lab-params-card">
                     <div class="card-header">
-                        <span class="badge badge-outline" data-i18n="lab_params_badge">R SMACOF ENGINE</span>
-                        <h2 data-i18n="lab_params_title">MDS Configuration</h2>
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="lab_params_badge">R SMACOF ENGINE</span>
+                            <h2 data-i18n="lab_params_title">MDS Configuration</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#lab-params-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body collapsible-content" id="lab-params-collapse">
                         <!-- Dataset Selection -->
                         <div class="form-group">
                             <label for="lab-dataset-select" data-i18n="lbl_dataset">Select Distance Dataset</label>
@@ -354,10 +703,17 @@
                 <!-- Scatter Plot Card -->
                 <div class="card lab-plot-card">
                     <div class="card-header">
-                        <span class="badge badge-outline" data-i18n="lab_plot_badge">MDS VISUALIZATION</span>
-                        <h2 data-i18n="lab_plot_title">MDS Projection Chart</h2>
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="lab_plot_badge">MDS VISUALIZATION</span>
+                            <h2 data-i18n="lab_plot_title">MDS Projection Chart</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#lab-plot-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="card-body plot-canvas-wrapper" style="height: 380px; position: relative;">
+                    <div class="card-body plot-canvas-wrapper collapsible-content" id="lab-plot-collapse" style="height: 380px; position: relative;">
                         <div id="plot-empty-state" class="plot-empty">
                             <div class="empty-icon">📊</div>
                             <h3 data-i18n="plot_empty_title">No projection computed</h3>
@@ -372,10 +728,17 @@
                 <!-- Statistics Results Card -->
                 <div class="card lab-results-card">
                     <div class="card-header">
-                        <span class="badge badge-outline" data-i18n="lab_stats_badge">MODEL STATISTICS</span>
-                        <h2 data-i18n="lab_stats_title">Fit Evaluation</h2>
+                        <div class="header-title-group">
+                            <span class="badge badge-outline" data-i18n="lab_stats_badge">MODEL STATISTICS</span>
+                            <h2 data-i18n="lab_stats_title">Fit Evaluation</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#lab-results-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="card-body results-grid">
+                    <div class="card-body results-grid collapsible-content" id="lab-results-collapse">
                         <div class="result-tile">
                             <div class="tile-label" data-i18n="res_stress">Stress-1 Value</div>
                             <div class="tile-value" id="res-stress-val">N/A</div>
@@ -400,10 +763,17 @@
                 <!-- Console logger output -->
                 <div class="card lab-console-card">
                     <div class="card-header">
-                        <span class="badge badge-outline">R CONSOLE LOG</span>
-                        <h2 data-i18n="lab_console_title">R Process Execution Output</h2>
+                        <div class="header-title-group">
+                            <span class="badge badge-outline">R CONSOLE LOG</span>
+                            <h2 data-i18n="lab_console_title">R Process Execution Output</h2>
+                        </div>
+                        <button class="section-toggle-btn" data-target="#lab-console-collapse" aria-expanded="true" title="Toggle section">
+                            <svg class="toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
-                    <div class="card-body console-wrapper">
+                    <div class="card-body console-wrapper collapsible-content" id="lab-console-collapse">
                         <pre class="console-log" id="lab-console-log">> Ready to run MDS scaling...</pre>
                     </div>
                 </div>

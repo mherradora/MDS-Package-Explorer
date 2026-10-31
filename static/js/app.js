@@ -561,7 +561,42 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "Source: CRANlogs API",
         chart_python_title: "Python Packages (PyPI)",
         chart_python_source: "Source: PyPIStats API",
-        legend_ind: "Independent MDS"
+        legend_ind: "Independent MDS",
+        interop_badge: "CROSS-LANGUAGE INTEROPERABILITY",
+        interop_title: "Running R in Python & Python in R (smacof ⇄ scikit-learn)",
+        interop_intro: "Modern data science workflows frequently combine R's specialized statistical ecosystems with Python's machine learning libraries. Below are reproducible patterns to execute R's smacof package inside Python via rpy2, and Python's scikit-learn MDS inside R via reticulate.",
+        interop_py_to_r_title: "Run R smacof inside Python with rpy2",
+        interop_py_to_r_desc: "Use rpy2.robjects and numpy2ri to convert NumPy arrays into R distance objects and compute MDS via smacof::mds().",
+        interop_r_to_py_title: "Run Python scikit-learn MDS inside R with reticulate",
+        interop_r_to_py_desc: "Use reticulate to import Python modules like sklearn.manifold directly into R, pass R matrices, and retrieve fitted MDS coordinates natively.",
+        mds_concept_badge: "THEORY & FOUNDATIONS",
+        mds_concept_title: "What is Multidimensional Scaling?",
+        mds_concept_p1: "Multidimensional Scaling (MDS) is a family of multivariate statistical techniques used to visualize similarities or dissimilarities (proximities) among a set of objects. Given a table or matrix of pair-wise distances between items, MDS positions each item in a low-dimensional target space (usually 2D or 3D) such that the resulting Euclidean distances between items reflect the empirical dissimilarities as closely as possible.",
+        mds_pillar_metric_title: "Metric MDS",
+        mds_pillar_metric_desc: "Assumes distances have a quantitative linear or interval relationship. It aims to preserve true numerical distance values directly (Classical scaling / Principal Coordinate Analysis, PCoA).",
+        mds_pillar_nonmetric_title: "Non-Metric MDS",
+        mds_pillar_nonmetric_desc: "Assumes only rank-order or monotonic relationships. It uses monotonic regression (Shepard diagrams) to map ordinal proximity judgments into geometric space.",
+        mds_pillar_smacof_title: "Majorization (SMACOF)",
+        mds_pillar_smacof_desc: "Scaling by Majorizing a Complicated Function iteratively minimizes Stress through auxiliary parabolic functions, providing guaranteed convergence without step-size tuning.",
+        mds_formula_label: "Normalized Stress Formula (Stress-1):",
+        books_badge: "RECOMMENDED READING",
+        books_title: "Books on Multidimensional Scaling",
+        books_intro: "These canonical and contemporary reference textbooks provide foundational theoretical grounding, majorization mathematics, and practical computation using R and Python:",
+        books_index_title: "Book Catalog Index",
+        btn_buy_springer: "Buy on Springer",
+        btn_buy_routledge: "Buy on Routledge",
+        btn_buy_sage: "Buy on SAGE",
+        global_index_title: "Page Navigation",
+        nav_what_is_mds: "What is MDS?",
+        nav_books: "Books & Literature",
+        nav_ecosystem: "Ecosystem Overview",
+        nav_popularity: "Popularity Analysis",
+        nav_interop: "R ⇄ Python Guide",
+        nav_packages: "MDS Packages Grid",
+        book_borg_desc: "The definitive, authoritative reference in MDS. Covers metric, non-metric, SMACOF majorization theory, asymmetric proximity models, unfolding, and constraints with deep mathematical rigour.",
+        book_cox_desc: "Comprehensive exposition of Classical Scaling, Shepard-Kruskal nonmetric models, Procrustes analysis, individual differences models (INDSCAL), and distance geometry.",
+        book_mair_desc: "A practical, hands-on guide centered on modern R packages (especially smacof and smacofx). Ideal for applied data analysts and psychometrics practitioners.",
+        book_kruskal_desc: "The historical classic by the pioneer of nonmetric MDS. Offers unmatched intuitive conceptual explanations of Stress, monotonicity, dimensional interpretation, and perceptual mapping."
     });
 
     Object.assign(translations.es, {
@@ -600,7 +635,42 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "Fuente: API CRANlogs",
         chart_python_title: "Paquetes de Python (PyPI)",
         chart_python_source: "Fuente: API PyPIStats",
-        legend_ind: "MDS Independientes"
+        legend_ind: "MDS Independientes",
+        interop_badge: "INTEROPERABILIDAD ENTRE LENGUAJES",
+        interop_title: "Ejecutar R en Python y Python en R (smacof ⇄ scikit-learn)",
+        interop_intro: "Los flujos modernos de ciencia de datos a menudo combinan el ecosistema estadístico especializado de R con las bibliotecas de aprendizaje automático de Python. A continuación se presentan patrones reproducibles para ejecutar smacof de R en Python mediante rpy2, y MDS de scikit-learn de Python en R mediante reticulate.",
+        interop_py_to_r_title: "Ejecutar smacof de R dentro de Python con rpy2",
+        interop_py_to_r_desc: "Usa rpy2.robjects y numpy2ri para convertir matrices NumPy en distancias de R y calcular MDS con smacof::mds().",
+        interop_r_to_py_title: "Ejecutar MDS de scikit-learn dentro de R con reticulate",
+        interop_r_to_py_desc: "Usa reticulate para importar sklearn.manifold directamente en R, transferir matrices y obtener las coordenadas de proyección.",
+        mds_concept_badge: "TEORÍA Y FUNDAMENTOS",
+        mds_concept_title: "¿Qué es el Escalamiento Multidimensional?",
+        mds_concept_p1: "El Escalamiento Multidimensional (MDS) es una familia de técnicas estadísticas multivariantes utilizadas para visualizar similitudes o disimilitudes (proximidades) entre un conjunto de objetos. A partir de una matriz de distancias por pares, posiciona cada objeto en un espacio de baja dimensión (habitualmente 2D o 3D) de modo que las distancias euclidianas reflejen las proximidades observadas lo más fielmente posible.",
+        mds_pillar_metric_title: "MDS Métrico",
+        mds_pillar_metric_desc: "Asume que las distancias tienen una relación lineal o cuantitativa directa. Su objetivo es preservar valores numéricos absolutos (Escalamiento Clásico / PCoA).",
+        mds_pillar_nonmetric_title: "MDS No Métrico",
+        mds_pillar_nonmetric_desc: "Asume únicamente relaciones ordinales o monótonas de rango. Utiliza regresión monótona (diagramas de Shepard) para proyectar proximidades ordinales en el espacio geométrico.",
+        mds_pillar_smacof_title: "Mayorización (SMACOF)",
+        mds_pillar_smacof_desc: "Scaling by Majorizing a Complicated Function minimiza iterativamente el Stress mediante funciones parabólicas auxiliares, garantizando convergencia sin ajuste de paso.",
+        mds_formula_label: "Fórmula de Stress Normalizado (Stress-1):",
+        books_badge: "LECTURAS RECOMENDADAS",
+        books_title: "Libros sobre Escalamiento Multidimensional",
+        books_intro: "Estos libros canónicos y contemporáneos proporcionan fundamentos teóricos rigurosos, matemática de mayorización y aplicaciones prácticas en R y Python:",
+        books_index_title: "Índice del Catálogo",
+        btn_buy_springer: "Comprar en Springer",
+        btn_buy_routledge: "Comprar en Routledge",
+        btn_buy_sage: "Comprar en SAGE",
+        global_index_title: "Navegación de Secciones",
+        nav_what_is_mds: "¿Qué es MDS?",
+        nav_books: "Libros y Literatura",
+        nav_ecosystem: "Visión del Ecosistema",
+        nav_popularity: "Análisis de Popularidad",
+        nav_interop: "Guía R ⇄ Python",
+        nav_packages: "Catálogo de Paquetes",
+        book_borg_desc: "La referencia definitiva y de mayor autoridad en MDS. Cubre modelos métricos, no métricos, teoría SMACOF, proximidades asimétricas y restricciones con gran rigor matemático.",
+        book_cox_desc: "Exposición integral de escalamiento clásico, modelos no métricos de Shepard-Kruskal, análisis de Procrustes y modelos de diferencias individuales (INDSCAL).",
+        book_mair_desc: "Guía práctica aplicada orientada a paquetes modernos de R (en especial smacof y smacofx). Ideal para analistas de datos aplicados y psicometría.",
+        book_kruskal_desc: "El clásico histórico del pionero del MDS no métrico. Ofrece explicaciones conceptuales intuitivas e inigualables sobre Stress, monotonía y mapas perceptuales."
     });
 
     Object.assign(translations.fr, {
@@ -639,7 +709,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "Source: API CRANlogs",
         chart_python_title: "Packages Python (PyPI)",
         chart_python_source: "Source: API PyPIStats",
-        legend_ind: "MDS Indépendants"
+        legend_ind: "MDS Indépendants",
+        interop_badge: "INTEROPÉRABILITÉ MULTI-LANGAGES",
+        interop_title: "Exécuter R en Python et Python en R (smacof ⇄ scikit-learn)",
+        interop_intro: "Les flux de travail modernes en science des données combinent souvent l'écosystème statistique de R et l'apprentissage automatique de Python. Voici des exemples reproductibles avec rpy2 et reticulate.",
+        interop_py_to_r_title: "Exécuter smacof de R en Python avec rpy2",
+        interop_py_to_r_desc: "Utilisez rpy2.robjects et numpy2ri pour convertir les tableaux NumPy en matrices de distance R et calculer MDS.",
+        interop_r_to_py_title: "Exécuter MDS de scikit-learn en R avec reticulate",
+        interop_r_to_py_desc: "Utilisez reticulate pour importer sklearn.manifold directement dans R et projeter les coordonnées."
     });
 
     Object.assign(translations.ru, {
@@ -678,7 +755,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "Источник: CRANlogs API",
         chart_python_title: "Пакеты Python (PyPI)",
         chart_python_source: "Источник: PyPIStats API",
-        legend_ind: "Независимые MDS"
+        legend_ind: "Независимые MDS",
+        interop_badge: "МЕЖЪЯЗЫКОВАЯ СОВМЕСТИМОСТЬ",
+        interop_title: "Запуск R в Python и Python в R (smacof ⇄ scikit-learn)",
+        interop_intro: "Современные задачи объединяют экосистему R и машинное обучение Python. Ниже приведены готовые примеры использования rpy2 и reticulate.",
+        interop_py_to_r_title: "Запуск R smacof в Python с помощью rpy2",
+        interop_py_to_r_desc: "Используйте rpy2.robjects и numpy2ri для конвертации массивов NumPy в расстояния R и расчета MDS с помощью smacof::mds().",
+        interop_r_to_py_title: "Запуск Python scikit-learn MDS в R с помощью reticulate",
+        interop_r_to_py_desc: "Используйте reticulate для импорта sklearn.manifold непосредственно в R и получения проекционных координат."
     });
 
     Object.assign(translations.zh, {
@@ -717,7 +801,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "数据来源：CRANlogs API",
         chart_python_title: "Python 软件包 (PyPI)",
         chart_python_source: "数据来源：PyPIStats API",
-        legend_ind: "独立 MDS"
+        legend_ind: "独立 MDS",
+        interop_badge: "跨语言互操作性",
+        interop_title: "在 Python 中运行 R 以及在 R 中运行 Python (smacof ⇄ scikit-learn)",
+        interop_intro: "现代数据科学工作流经常结合 R 的统计生态系统与 Python 的机器学习库。以下是使用 rpy2 和 reticulate 互相调用的可复现示例代码。",
+        interop_py_to_r_title: "通过 rpy2 在 Python 中运行 R smacof",
+        interop_py_to_r_desc: "使用 rpy2.robjects 和 numpy2ri 将 NumPy 矩阵转换为 R 距离对象并通过 smacof::mds() 计算多维标度分析。",
+        interop_r_to_py_title: "通过 reticulate 在 R 中运行 Python scikit-learn MDS",
+        interop_r_to_py_desc: "使用 reticulate 在 R 中导入 sklearn.manifold，传入 R 矩阵并计算嵌入坐标。"
     });
 
     Object.assign(translations.ar, {
@@ -756,7 +847,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chart_r_source: "المصدر: واجهة CRANlogs API",
         chart_python_title: "حزم Python (PyPI)",
         chart_python_source: "المصدر: واجهة PyPIStats API",
-        legend_ind: "MDS مستقل"
+        legend_ind: "MDS مستقل",
+        interop_badge: "قابلية التشغيل البيني بين اللغات",
+        interop_title: "تشغيل R في Python و Python في R (smacof ⇄ scikit-learn)",
+        interop_intro: "تجمع مسارات عمل علم البيانات الحديثة بين البيئة الإحصائية المتخصصة في R ومكتبات التعلم الآلي في Python. فيما يلي أمثلة قابلة للتطبيق باستخدام rpy2 و reticulate.",
+        interop_py_to_r_title: "تشغيل smacof من R داخل Python باستخدام rpy2",
+        interop_py_to_r_desc: "استخدم rpy2.robjects و numpy2ri لتحويل مصفوفات NumPy إلى كائنات مسافة في R وحساب MDS.",
+        interop_r_to_py_title: "تشغيل MDS من scikit-learn داخل R باستخدام reticulate",
+        interop_r_to_py_desc: "استخدم reticulate لاستيراد sklearn.manifold مباشرة إلى R والحصول على إحداثيات الإسقاط."
     });
 
     // Application State
@@ -1162,6 +1260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render: Tweets Timeline
     function renderTweets(tweets) {
+        if (!elements.tweetsTimeline) return;
         const langData = translations[currentLang];
         elements.tweetsTimeline.innerHTML = '';
         
@@ -1902,10 +2001,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Collapsible Sections Management
+    function initCollapsibleSections() {
+        const toggleButtons = document.querySelectorAll('.section-toggle-btn');
+        toggleButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetSelector = btn.getAttribute('data-target');
+                if (!targetSelector) return;
+                const targetEl = document.querySelector(targetSelector);
+                if (!targetEl) return;
+
+                const isCurrentlyCollapsed = btn.classList.contains('collapsed');
+                if (isCurrentlyCollapsed) {
+                    btn.classList.remove('collapsed');
+                    btn.setAttribute('aria-expanded', 'true');
+                    targetEl.classList.remove('is-collapsed');
+                } else {
+                    btn.classList.add('collapsed');
+                    btn.setAttribute('aria-expanded', 'false');
+                    targetEl.classList.add('is-collapsed');
+                }
+            });
+        });
+
+        // Global sidebar smooth navigation and active link highlighting on scroll
+        const navLinks = document.querySelectorAll('.global-nav-link');
+        const sections = document.querySelectorAll('.packages-section > .card, .packages-section > .section-header');
+
+        window.addEventListener('scroll', () => {
+            let currentSecId = '';
+            sections.forEach(sec => {
+                const top = sec.offsetTop - 140;
+                if (window.scrollY >= top) {
+                    currentSecId = sec.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                const targetId = link.getAttribute('href')?.replace('#', '');
+                if (targetId && targetId === currentSecId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }, { passive: true });
+    }
+
+    // Mathematical formula rendering via KaTeX
+    function renderMathFormulas() {
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false
+            });
+        } else if (typeof katex !== 'undefined') {
+            const formulaEl = document.getElementById('stress-formula');
+            if (formulaEl) {
+                katex.render(
+                    "\\sigma_1(\\mathbf{X}) = \\sqrt{ \\frac{\\sum_{i < j} w_{ij} \\big(d_{ij}(\\mathbf{X}) - \\hat{d}_{ij}\\big)^2}{\\sum_{i < j} w_{ij} d_{ij}^2(\\mathbf{X})} }",
+                    formulaEl,
+                    { displayMode: true, throwOnError: false }
+                );
+            }
+        }
+    }
+
     // Initialize interactive tools
     translateUI();
     loadPackages(false);
     initDependencyGraph();
     initTabs();
     initMdsLab();
+    initCollapsibleSections();
+    renderMathFormulas();
 });
